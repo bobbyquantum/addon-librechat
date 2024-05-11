@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv bashio
+## Run your program
+bashio::log.info "Starting MongoDB"
+mkdir -p /data/db
+exec mongod --bind_ip 0.0.0.0

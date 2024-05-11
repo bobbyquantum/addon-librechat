@@ -1,0 +1,15 @@
+#!/usr/bin/with-contenv bashio
+## Run librechat
+bashio::log.info "Starting LibreChat Backend"
+cd /opt/librechat
+if [ ! -f .env ]; then
+    cp .env.example .env
+fi
+sed -i "/^HOST=/c\HOST=0.0.0.0" .env
+
+declare domain_server
+domain_server=$(bashio::config 'domain_server')
+
+sed -i "/^DOMAIN_SERVER=/c\DOMAIN_SERVER=${domain_server}" .env
+
+exec /bin/bash -c "source $HOME/.nvm/nvm.sh; npm run backend"

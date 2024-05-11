@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv bashio
+## Run meilisearch
+bashio::log.info "Starting Meilisearch"
+exec /opt/meilisearch
