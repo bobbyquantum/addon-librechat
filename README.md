@@ -4,7 +4,7 @@
 
 This repository contains the following add-ons
 
-### [LibreChat add-on](./example)
+### [LibreChat add-on](./librechat)
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
