@@ -9,7 +9,7 @@ arch:
   - amd64
 init: false
 apparmor: false
-host_network: false
+#host_network: false
 ingress: true
 ingress_port: 3080
 ingress_entry: /
