@@ -1,4 +1,7 @@
 configuration:
-  message:
-    name: Message
-    description: The message that will be printed to the log when starting this example add-on.
+  domain_server:
+    name: Domain Server
+    description: The web facing base server address, used for authentication callbacks etc.
+  openai_api_key:
+    name: OpenAI API Key
+    description: An optional API key for OpenAI.  Alternatively leave use user_provider to set in the UI.

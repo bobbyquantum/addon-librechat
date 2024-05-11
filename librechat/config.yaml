@@ -24,4 +24,4 @@ ports:
 schema:
   domain_server: "str?"
   openai_api_key: "str?"
-image: "ghcr.io/BobbyQuantum/{arch}-addon-librechat"
+image: "ghcr.io/bobbyquantum/{arch}-addon-librechat"
