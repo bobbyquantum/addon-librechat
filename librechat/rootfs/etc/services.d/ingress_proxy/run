@@ -1,0 +1,6 @@
+#!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
+## Run progress
+bashio::log.info "Starting Ingress Proxy"
+cd /usr/script || exit
+exec /bin/bash -c "source $HOME/.nvm/nvm.sh; node ingress_proxy.js"

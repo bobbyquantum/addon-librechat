@@ -12,6 +12,7 @@ apparmor: false
 #host_network: false
 ingress: true
 ingress_port: 3080
+ingress_port: 5050
 ingress_entry: /
 map:
   - share:rw
@@ -22,6 +23,7 @@ options:
   ai_openai_key: user_provided
 ports:
   3080/tcp: 3080
+  5050/tcp: 5050
   # 27017/tcp: 27017
 schema:
   core_librechat_debug_logging: "bool"
