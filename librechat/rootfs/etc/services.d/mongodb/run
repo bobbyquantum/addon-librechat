@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
 ## Run your program
 bashio::log.info "Starting MongoDB"
 mkdir -p /data/db
