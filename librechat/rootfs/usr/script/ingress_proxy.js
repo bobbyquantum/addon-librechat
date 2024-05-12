@@ -19,7 +19,7 @@ app.use("/api/hassio_ingress/:token", (req, res) => {
 });
 
 // Specify the port to run on
-const PORT = 3000;
+const PORT = 5054;
 app.listen(PORT, () => {
   console.log(`Proxy server running on port ${PORT}`);
 });

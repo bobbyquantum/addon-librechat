@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: LibreChat
-version: "0.7.2-alpha5"
+version: "0.7.2-alpha6"
 slug: librechat
 description: Open-source AI chat platform integrating multiple models and services.
 url: "https://github.com/BobbyQuantum/addon-librechat/tree/main/librechat"
@@ -11,7 +11,7 @@ init: false
 apparmor: false
 #host_network: false
 ingress: true
-ingress_port: 5050
+ingress_port: 5054
 ingress_entry: /
 map:
   - share:rw
@@ -22,11 +22,11 @@ options:
   ai_openai_key: user_provided
 ports:
   3080/tcp: 3080
-  5050/tcp: 5050
+  5054/tcp: 5054
   # 27017/tcp: 27017
 schema:
   core_librechat_debug_logging: "bool"
   core_domain_server: "str?"
   ai_openai_enabled: "bool"
   ai_openai_key: "str?"
-image: "ghcr.io/bobbyquantum/{arch}-addon-librechat"
+# image: "ghcr.io/bobbyquantum/{arch}-addon-librechat"
