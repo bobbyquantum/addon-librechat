@@ -1,8 +1,8 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
-name: LibreChat add-on
+name: LibreChat
 version: "0.7.2-alpha2"
 slug: librechat
-description: LibreChat add-on
+description: LibreChat
 url: "https://github.com/BobbyQuantum/addon-librechat/tree/main/librechat"
 arch:
   - aarch64
@@ -16,12 +16,16 @@ ingress_entry: /
 map:
   - share:rw
 options:
-  domain_server: http://localhost:3080
-  openai_api_key: user_provided
+  core_librechat_debug_logging: false
+  core_domain_server: http://localhost:3080
+  ai_openai_enabled: true
+  ai_openai_key: user_provided
 ports:
   3080/tcp: 3080
   # 27017/tcp: 27017
 schema:
-  domain_server: "str?"
-  openai_api_key: "str?"
+  core_librechat_debug_logging: "bool"
+  core_domain_server: "str?"
+  ai_openai_enabled: "bool"
+  ai_openai_key: "str?"
 image: "ghcr.io/bobbyquantum/{arch}-addon-librechat"
