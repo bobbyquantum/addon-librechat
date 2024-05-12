@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: LibreChat
-version: "0.7.2-alpha2"
+version: "0.7.2-alpha3"
 slug: librechat
 description: LibreChat
 url: "https://github.com/BobbyQuantum/addon-librechat/tree/main/librechat"

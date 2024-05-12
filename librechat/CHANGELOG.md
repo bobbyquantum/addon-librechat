@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.2-alpha3
+
+- Add additional config options
+- Fix some paths
+
 ## 0.7.2-alpha2
 
 - Remove unused program
