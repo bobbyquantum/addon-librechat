@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv bashio
 ## Run meilisearch
 bashio::log.info "Starting Meilisearch"
-exec /opt/meilisearch
+mkdir -p /data/meilisearch
+exec /opt/meilisearch --db-path /data/meilisearch
