@@ -44,7 +44,7 @@ RUN apt-get update && apt-get install -y gnupg git && \
     curl -OL https://github.com/meilisearch/meilisearch/releases/download/${MEILISEARCH_VERSION}/meilisearch-linux-${BUILD_ARCH} && \
     mv meilisearch-linux-${BUILD_ARCH} /opt/meilisearch && \
     cd /usr/script && \
-    /bin/bash -c "source $HOME/.nvm/nvm.sh; npm install http-proxy" && \
+    /bin/bash -c "source $HOME/.nvm/nvm.sh; npm install http-proxy express" && \
     # install librechat
     cd /opt/librechat && \
     git clone https://github.com/danny-avila/LibreChat.git . && \
