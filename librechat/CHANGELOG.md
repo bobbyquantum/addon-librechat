@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.2-alpha4
+
+- Add ingress reverse proxy
+- Reduce image size by only including mongod
+
 ## 0.7.2-alpha3
 
 - Add additional config options
