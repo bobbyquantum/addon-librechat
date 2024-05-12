@@ -12,7 +12,7 @@ app.use("/api/hassio_ingress/:token", (req, res) => {
   let forwardedUrl = req.url.split("/").slice(4).join("/");
 
   // Your target where you want to send the cleaned URL
-  const targetUrl = `http://helix.local:8123/${forwardedUrl}`;
+  const targetUrl = `http://localhost:3080/${forwardedUrl}`;
 
   // Perform the proxying
   proxy.web(req, res, { target: targetUrl });
