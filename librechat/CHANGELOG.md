@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.3-alpha2
+
+- Handle IP6 prefix stripping
+- Fix ingress URL
+
 ## 0.7.3-alpha1
 
 - Update version to reflect LibreChat version

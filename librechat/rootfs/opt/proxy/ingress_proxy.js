@@ -12,7 +12,7 @@ const myProxy = createProxy();
 app.use((req, res, next) => {
   console.log(`Ingress Request: ${req.originalUrl}`);
   const allowedIps = ["127.0.0.1", "172.30.32.2"];
-  const clientIp = req.connection.remoteAddress;
+  const clientIp = req.connection.remoteAddress.replace(/^.*:/, ""); // Normalize IPv6 colon-embedded IPv4 addresses
   if (allowedIps.includes(clientIp)) {
     next();
   } else {
