@@ -10,13 +10,13 @@ const myProxy = createProxy();
 
 // Middleware to restrict access based on IP address
 app.use((req, res, next) => {
+  console.log(`Ingress Request: ${req.originalUrl}`);
   const allowedIps = ["127.0.0.1", "172.30.32.2"];
   const clientIp = req.connection.remoteAddress;
-
   if (allowedIps.includes(clientIp)) {
     next();
   } else {
-    res.status(403).send("Forbidden");
+    res.status(403).send(`Forbidden - client IP ${clientIp} not permitted`);
   }
 });
 
