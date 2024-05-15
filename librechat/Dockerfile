@@ -7,7 +7,6 @@ ARG LIBRECHAT_VERSION
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Copy root filesystem
 COPY rootfs /
 
 RUN cd /opt/proxy && npm install http-proxy express http-proxy-middleware body-parser && \
