@@ -1,7 +1,7 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 build_from:
-  aarch64: ghcr.io/bobbyquantum/addon-base-ubuntu-node-mongo:1.0.1
-  amd64: ghcr.io/bobbyquantum/addon-base-ubuntu-node-mongo:1.0.1
+  aarch64: ghcr.io/bobbyquantum/addon-base-ubuntu-node-mongo:1.0.2
+  amd64: ghcr.io/bobbyquantum/addon-base-ubuntu-node-mongo:1.0.2
 labels:
   org.opencontainers.image.title: "LibreChat"
   org.opencontainers.image.description: "LibreChat deployment for Home Assistant."
