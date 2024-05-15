@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.3-alpha5
+
+- Revert and disable ingress until a solution can be found for client path issues
+
 ## 0.7.3-alpha4
 
 - Modify librechat vite config to build client with relative URL.

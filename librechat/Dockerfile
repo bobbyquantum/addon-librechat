@@ -18,8 +18,6 @@ RUN cd /opt/proxy && npm install http-proxy express http-proxy-middleware body-p
     cd /opt/librechat && \
     git clone https://github.com/danny-avila/LibreChat.git . && \
     git checkout tags/${LIBRECHAT_VERSION} && \
-    # need to prevent it building with relative urls.
-    sed -i '/customLogger: logger,/a\  base: \"\",' client/vite.config.ts && \
     npm ci && npm run frontend && \
     # fix permissions
     chmod +x /etc/services.d/mongodb/run \
