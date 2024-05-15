@@ -1,6 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
-## 0.7.3-alpha2
+## 0.7.3-alpha4
+
+- Modify librechat vite config to build client with relative URL.
+
+## 0.7.3-alpha3
 
 - Add logging to ingress server with winston and morgan
 
