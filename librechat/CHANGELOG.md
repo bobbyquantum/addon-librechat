@@ -1,5 +1,11 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.3-alpha1
+
+- Update version to reflect LibreChat version
+- Add logging to ingress proxy
+- Fix missing logging when debug logging is enabled for librechat
+
 ## 0.7.2-alpha8
 
 - Fix some startup bugs

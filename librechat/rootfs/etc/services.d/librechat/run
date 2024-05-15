@@ -22,7 +22,7 @@ sed -i "/^DOMAIN_SERVER=/c\DOMAIN_SERVER=${core_domain_server}" .env
 declare core_librechat_debug_logging
 core_librechat_debug_logging=$(bashio::config 'core_librechat_debug_logging')
 sed -i "/^DEBUG_LOGGING=/c\DEBUG_LOGGING=${core_librechat_debug_logging}" .env
-sed -i "/^DEBUG_LOGGING=/c\DEBUG_LOGGING=${core_librechat_debug_logging}" .env
+sed -i "/^DEBUG_CONSOLE=/c\DEBUG_CONSOLE=${core_librechat_debug_logging}" .env
 
 #enable/disable endpoints
 declare endpoints=""
