@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.2-alpha8
+
+- Fix some startup bugs
+
 ## 0.7.2-alpha7
 
 - Update to LibreChat 0.7.3-rc

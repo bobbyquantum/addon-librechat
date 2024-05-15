@@ -2,5 +2,5 @@
 # shellcheck shell=bash
 ## Run progress
 bashio::log.info "Starting Ingress Proxy"
-cd /usr/script || exit
+cd /opt/proxy || exit
 exec node ingress_proxy.js

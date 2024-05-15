@@ -11,7 +11,7 @@ fi
 sed -i "/^HOST=/c\HOST=0.0.0.0" .env
 
 declare core_allow_registration
-core_domain_server=$(bashio::config 'core_allow_registration')
+core_allow_registration=$(bashio::config 'core_allow_registration')
 sed -i "/^ALLOW_REGISTRATION=/c\ALLOW_REGISTRATION=${core_allow_registration}" .env
 
 
@@ -43,4 +43,4 @@ declare ai_openai_key
 ai_openai_key=$(bashio::config 'ai_openai_key')
 sed -i "/^OPENAI_API_KEY=/c\OPENAI_API_KEY=${ai_openai_key}" .env
 
-exec /bin/bash -c "source $HOME/.nvm/nvm.sh; npm run backend"
+exec npm run backend
