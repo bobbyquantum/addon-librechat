@@ -2,15 +2,36 @@ const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const bodyParser = require("body-parser");
 const { createProxy } = require("http-proxy");
+const morgan = require("morgan");
+const winston = require("winston");
 
 const app = express();
 const PORT = 5054;
 
 const myProxy = createProxy();
 
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.printf(({ timestamp, level, message }) => {
+      return `${timestamp} [${level}]: ${message}`;
+    })
+  ),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: "proxy.log" }),
+  ],
+});
+
+app.use(
+  morgan("combined", {
+    stream: { write: (message) => logger.info(message.trim()) },
+  })
+);
+
 // Middleware to restrict access based on IP address
 app.use((req, res, next) => {
-  console.log(`Ingress Request: ${req.originalUrl}`);
   const allowedIps = ["127.0.0.1", "172.30.32.2"];
   const clientIp = req.connection.remoteAddress.replace(/^.*:/, ""); // Normalize IPv6 colon-embedded IPv4 addresses
   if (allowedIps.includes(clientIp)) {
@@ -48,6 +69,11 @@ app.use("/", (req, res, next) => {
     changeOrigin: true,
     selfHandleResponse: true, // Handle response modification
     onProxyRes: proxyResCallback,
+  });
+
+  myProxy.on("error", (err, req, res) => {
+    logger.error(`Proxy error: ${err.message}`);
+    res.status(500).send("Proxy error");
   });
 });
 

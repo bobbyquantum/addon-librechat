@@ -2,6 +2,10 @@
 
 ## 0.7.3-alpha2
 
+- Add logging to ingress server with winston and morgan
+
+## 0.7.3-alpha2
+
 - Handle IP6 prefix stripping
 - Fix ingress URL
 

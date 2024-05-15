@@ -10,7 +10,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 COPY rootfs /
 
-RUN cd /opt/proxy && npm install http-proxy express http-proxy-middleware body-parser && \
+RUN cd /opt/proxy && npm install http-proxy express http-proxy-middleware body-parser winston morgan && \
     curl -OL https://github.com/meilisearch/meilisearch/releases/download/${MEILISEARCH_VERSION}/meilisearch-linux-${BUILD_ARCH} && \
     mv meilisearch-linux-${BUILD_ARCH} /opt/meilisearch && \
     # install librechat
