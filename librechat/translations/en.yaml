@@ -1,6 +1,10 @@
 configuration:
+  core_allow_registration:
+    name: Allow Registration
+    description: Whether to allow users to register
   core_librechat_debug_logging:
-    name: "librechat debug logging to container logs"
+    name: Debug Logging
+    description: Debug logging to container logs
   core_domain_server:
     name: Domain Server
     description: The web facing base server address, used for authentication callbacks etc.

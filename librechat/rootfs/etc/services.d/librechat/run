@@ -10,6 +10,11 @@ fi
 #bind all ports
 sed -i "/^HOST=/c\HOST=0.0.0.0" .env
 
+declare core_allow_registration
+core_domain_server=$(bashio::config 'core_allow_registration')
+sed -i "/^ALLOW_REGISTRATION=/c\ALLOW_REGISTRATION=${core_allow_registration}" .env
+
+
 declare core_domain_server
 core_domain_server=$(bashio::config 'core_domain_server')
 sed -i "/^DOMAIN_SERVER=/c\DOMAIN_SERVER=${core_domain_server}" .env

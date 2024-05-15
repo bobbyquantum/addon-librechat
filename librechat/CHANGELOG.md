@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.2-alpha7
+
+- Update to LibreChat 0.7.3-rc
+- Add setting to control user registration permission
+
 ## 0.7.2-alpha6
 
 - Fix ingress issues

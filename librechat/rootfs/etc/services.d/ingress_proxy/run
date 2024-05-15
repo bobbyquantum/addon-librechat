@@ -3,4 +3,4 @@
 ## Run progress
 bashio::log.info "Starting Ingress Proxy"
 cd /usr/script || exit
-exec /bin/bash -c "source $HOME/.nvm/nvm.sh; node ingress_proxy.js"
+exec node ingress_proxy.js
