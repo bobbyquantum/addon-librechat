@@ -31,4 +31,4 @@ schema:
   core_domain_server: "str?"
   ai_openai_enabled: "bool"
   ai_openai_key: "str?"
-# image: "ghcr.io/bobbyquantum/{arch}-addon-librechat"
+image: "ghcr.io/bobbyquantum/{arch}-addon-librechat"
