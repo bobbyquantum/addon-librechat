@@ -1,46 +1,14 @@
 #!/usr/bin/with-contenv bashio
 # shellcheck shell=bash
-## Run librechat
-bashio::log.info "Starting LibreChat Backend"
 cd /opt/librechat || exit
-if [ ! -f .env ]; then
-    cp .env.example .env
+bashio::log.info "Starting LibreChat Backend"
+
+#if there isn't a default env file, then copy one.
+if [ ! -f /config/.env ]; then
+    cp .env.example /config/.env
 fi
 
-#bind all ports
-sed -i "/^HOST=/c\HOST=0.0.0.0" .env
-
-declare core_allow_registration
-core_allow_registration=$(bashio::config 'core_allow_registration')
-sed -i "/^ALLOW_REGISTRATION=/c\ALLOW_REGISTRATION=${core_allow_registration}" .env
-
-
-declare core_domain_server
-core_domain_server=$(bashio::config 'core_domain_server')
-sed -i "/^DOMAIN_SERVER=/c\DOMAIN_SERVER=${core_domain_server}" .env
-
-declare core_librechat_debug_logging
-core_librechat_debug_logging=$(bashio::config 'core_librechat_debug_logging')
-sed -i "/^DEBUG_LOGGING=/c\DEBUG_LOGGING=${core_librechat_debug_logging}" .env
-sed -i "/^DEBUG_CONSOLE=/c\DEBUG_CONSOLE=${core_librechat_debug_logging}" .env
-
-#enable/disable endpoints
-declare endpoints=""
-declare ai_openai_enabled
-ai_openai_enabled=$(bashio::config 'ai_openai_enabled')
-declare ai_bing_enabled
-ai_bing_enabled=$(bashio::config 'ai_bing_enabled')
-if [ "$ai_openai_enabled" = true ]; then
-    endpoints+="openAI,"
-fi
-if [ "$ai_bing_enabled" = true ]; then
-    endpoints+="bingAI,"
-fi
-endpoints=${endpoints%?}
-sed -i "/^ENDPOINTS=/c\ENDPOINTS=${endpoints}" .env
-
-declare ai_openai_key
-ai_openai_key=$(bashio::config 'ai_openai_key')
-sed -i "/^OPENAI_API_KEY=/c\OPENAI_API_KEY=${ai_openai_key}" .env
+#copy whatever is in env before running.
+cp /config/.env .env
 
 exec npm run backend
