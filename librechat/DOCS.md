@@ -13,3 +13,7 @@ If you want to use a librechat yaml, place that into the addon_config/librechat 
 ```
 CONFIG_PATH="/config/librechat.yaml"
 ```
+
+You should generate new keys using the token here and include them in your config:
+
+https://www.librechat.ai/toolkit
