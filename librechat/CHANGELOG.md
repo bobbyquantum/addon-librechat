@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.4
+
+- Update to librechat 0.7.4
+
 ## 0.7.4-beta1
 
 - Update to librechat 0.7.4-rc1
