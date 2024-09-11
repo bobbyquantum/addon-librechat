@@ -2,6 +2,10 @@
 
 ## 0.7.5-rc1
 
+- Update to librechat 0.7.5-rc2 ( https://www.librechat.ai/changelog/v0.7.5-rc2 )
+
+## 0.7.5-rc1
+
 - Update to librechat 0.7.5-rc1 ( https://www.librechat.ai/changelog/v0.7.5-rc1 )
 
 ## 0.7.4
