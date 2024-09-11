@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
+
+cd /app || bashio::exit.nok "Could not change directory to /app"
+
+# If there isn't a .env file in the config directory, create an empty one
+if [ ! -f /config/.env ]; then
+    touch /config/.env
+    bashio::log.info "Created empty .env file in /config/.env"
+fi
+
+# Copy the .env file from the config directory
+cp /config/.env .env
+
+bashio::log.info "Starting RAG API"
+exec uvicorn main:app --host 0.0.0.0 --port 8000

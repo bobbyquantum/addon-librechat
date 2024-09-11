@@ -4,45 +4,31 @@ FROM $BUILD_FROM
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Use build arguments
-ARG PYTHON_VERSION
-ARG RAG_API_VERSION
-
 # Install dependencies
 RUN apk add --no-cache \
     build-base \
     python3-dev \
-    libffi-dev
+    libffi-dev \
+    git
 
 # Set working directory
 WORKDIR /app
 
-# Copy requirements file
-COPY requirements.txt .
+# Clone the RAG API repository
+RUN git clone https://github.com/danny-avila/rag_api.git . && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Install Python dependencies
-RUN pip${PYTHON_VERSION} install --no-cache-dir -r requirements.txt
+# Create an empty .env file
+RUN touch .env
 
-# Copy RAG API files
-COPY rag_api/ .
+# Copy rootfs
+COPY rootfs /
 
-# Copy .env.example
-COPY .env.example .
-
-# Copy run script
-COPY run.sh /
-RUN chmod a+x /run.sh
-
-# Set labels
-LABEL \
-    io.hass.name="RAG API" \
-    io.hass.description="RAG API for LibreChat" \
-    io.hass.version=${RAG_API_VERSION} \
-    io.hass.type="addon" \
-    io.hass.arch="aarch64,amd64"
+# Make sure scripts are executable
+RUN chmod a+x /etc/services.d/*/run /etc/services.d/*/finish
 
 # Expose the API port
-EXPOSE 3085
+EXPOSE 8000
 
-# Start the service
-CMD [ "/run.sh" ]
+# Set up s6-overlay entrypoint
+ENTRYPOINT ["/init"]
