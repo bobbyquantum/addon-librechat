@@ -3,7 +3,11 @@
 set -e
 
 # Wait for PostgreSQL to be ready
-bashio::net.wait_for 5432
+bashio::log.info "Waiting for PostgreSQL to be ready..."
+until bashio::net.wait_for 5432 && su postgres -c "pg_isready" 2>/dev/null; do
+    bashio::log.info "PostgreSQL is not ready yet. Waiting..."
+    sleep 2
+done
 
 # Set environment variables
 export POSTGRES_DB="ragapi"

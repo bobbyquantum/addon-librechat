@@ -4,17 +4,25 @@ FROM $BUILD_FROM
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
+# Install PostgreSQL 15 and other dependencies
+RUN apt-get update && apt-get install -y curl gnupg2 lsb-release && \
+    curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+    apt-get update && \
+    apt-get install -y \
     python3 \
     python3-pip \
     python3-dev \
     build-essential \
     git \
-    postgresql \
-    postgresql-server-dev-13 \
+    postgresql-15 \
+    postgresql-server-dev-15 \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# Set PostgreSQL environment variables
+ENV PATH $PATH:/usr/lib/postgresql/15/bin
+ENV PGDATA /var/lib/postgresql/data
 
 # Install pgvector
 RUN git clone https://github.com/pgvector/pgvector.git \
@@ -41,7 +49,7 @@ COPY rootfs /
 RUN chmod a+x /etc/services.d/*/run /etc/services.d/*/finish
 
 # Create necessary directories
-RUN mkdir -p /var/log/postgresql && chown postgres:postgres /var/log/postgresql
+RUN mkdir -p /var/lib/postgresql/data && chown -R postgres:postgres /var/lib/postgresql
 
 # Expose the API port and PostgreSQL port
 EXPOSE 8000 5432

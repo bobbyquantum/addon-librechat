@@ -2,21 +2,27 @@
 # shellcheck shell=bash
 set -e
 
-DATA_DIR="/data/postgres"
-
-# Initialize PostgreSQL if it hasn't been initialized
-if [ ! -d "$DATA_DIR" ]; then
+# Check if PostgreSQL data directory is empty
+if [ -z "$(ls -A "$PGDATA")" ]; then
     bashio::log.info "Initializing PostgreSQL database..."
-    mkdir -p "$DATA_DIR"
-    chown postgres:postgres "$DATA_DIR"
-    su postgres -c "initdb -D $DATA_DIR"
+    su postgres -c "initdb -D $PGDATA"
+
+    # Start PostgreSQL temporarily to create database and extension
+    su postgres -c "pg_ctl -D $PGDATA -l /var/log/postgresql/postgresql.log start"
+
+    # Wait for PostgreSQL to start
+    until su postgres -c "pg_isready" 2>/dev/null; do
+        bashio::log.info "Waiting for PostgreSQL to start..."
+        sleep 1
+    done
 
     # Create database and enable pgvector extension
-    su postgres -c "pg_ctl -D $DATA_DIR -l /var/log/postgresql/postgresql.log start"
     su postgres -c "createdb ragapi"
-    su postgres -c "psql -d ragapi -c \"CREATE EXTENSION IF NOT EXISTS vector;\""
-    su postgres -c "pg_ctl -D $DATA_DIR stop"
+    su postgres -c "psql -d ragapi -c 'CREATE EXTENSION IF NOT EXISTS vector;'"
+
+    # Stop PostgreSQL
+    su postgres -c "pg_ctl -D $PGDATA stop"
 fi
 
 bashio::log.info "Starting PostgreSQL..."
-exec s6-setuidgid postgres postgres -D "$DATA_DIR"
+exec su postgres -c "postgres -D $PGDATA"
