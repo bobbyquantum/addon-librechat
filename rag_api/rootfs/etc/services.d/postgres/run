@@ -7,6 +7,10 @@ if [ -z "$(ls -A "$PGDATA")" ]; then
     bashio::log.info "Initializing PostgreSQL database..."
     su postgres -c "initdb -D $PGDATA"
 
+    # Modify postgresql.conf to enable logging
+    echo "log_statement = 'all'" >> "$PGDATA/postgresql.conf"
+    echo "log_destination = 'stderr'" >> "$PGDATA/postgresql.conf"
+
     # Start PostgreSQL temporarily to create database and extension
     su postgres -c "pg_ctl -D $PGDATA -l /var/log/postgresql/postgresql.log start"
 
@@ -15,6 +19,9 @@ if [ -z "$(ls -A "$PGDATA")" ]; then
         bashio::log.info "Waiting for PostgreSQL to start..."
         sleep 1
     done
+
+    # Set a password for postgres user
+    su postgres -c "psql -c \"ALTER USER postgres WITH PASSWORD 'ragapipassword';\""
 
     # Create database and enable pgvector extension
     su postgres -c "createdb ragapi"

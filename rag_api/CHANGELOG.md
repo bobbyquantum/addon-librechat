@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.2.0-3
+
+Set postgres password
+
 ## 0.2.0-2
 
 Add postgres extensions

@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y curl gnupg2 lsb-release && \
     build-essential \
     git \
     postgresql-15 \
+    postgresql-client-15 \
     postgresql-server-dev-15 \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*

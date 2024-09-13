@@ -12,9 +12,18 @@ done
 # Set environment variables
 export POSTGRES_DB="ragapi"
 export POSTGRES_USER="postgres"
-export POSTGRES_PASSWORD=""  # No password for local connections
+export POSTGRES_PASSWORD="ragapipassword"
 export DB_HOST="localhost"
 export DB_PORT="5432"
+
+# Test database connection
+bashio::log.info "Testing database connection..."
+if psql -h localhost -U postgres -d ragapi -c '\l' >/dev/null 2>&1; then
+    bashio::log.info "Database connection successful."
+else
+    bashio::log.error "Failed to connect to the database. Check PostgreSQL logs for more information."
+    exit 1
+fi
 
 # Start the RAG API
 bashio::log.info "Starting RAG API..."
