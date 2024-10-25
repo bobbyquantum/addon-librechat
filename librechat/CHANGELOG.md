@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.5
+
+- Update to librechat 0.7.5 ( https://www.librechat.ai/changelog/v0.7.5 )
+
 ## 0.7.5-rc2
 
 - Update to librechat 0.7.5-rc2 ( https://www.librechat.ai/changelog/v0.7.5-rc2 )
@@ -19,6 +23,7 @@
 ## 0.7.3-alpha7
 
 - Update to librechat-0.7.3-rc2 ( https://www.librechat.ai/changelog/v0.7.3-rc2 )
+
 ## 0.7.3-alpha6
 
 - [Breaking] Switch to addon_config for .env.  .env file created in addon_config/librechat on first run. See docs or https://www.librechat.ai/docs/configuration for guide.
