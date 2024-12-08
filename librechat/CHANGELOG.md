@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.6-rc1
+
+- Update to librechat 0.7.5 ( https://github.com/danny-avila/LibreChat/releases/tag/v0.7.6-rc1 )
+
 ## 0.7.5
 
 - Update to librechat 0.7.5 ( https://www.librechat.ai/changelog/v0.7.5 )
