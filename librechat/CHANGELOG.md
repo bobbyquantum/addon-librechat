@@ -2,7 +2,7 @@
 
 ## 0.7.6-rc1
 
-- Update to librechat 0.7.5 ( https://github.com/danny-avila/LibreChat/releases/tag/v0.7.6-rc1 )
+- Update to librechat 0.7.6-rc1 ( https://github.com/danny-avila/LibreChat/releases/tag/v0.7.6-rc1 )
 
 ## 0.7.5
 
