@@ -8,7 +8,7 @@ arch:
   - aarch64
   - amd64
 init: false
-apparmor: false
+apparmor: true
 map:
   - share:rw
   - addon_config:rw
