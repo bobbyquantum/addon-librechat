@@ -26,33 +26,56 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
 
   # Access to options.json and other files within your addon
   /data/** rw,
+  /share/** rw,
+  /addon_config/** rw,
 
-  # Start new profile for service
-  #/usr/bin/my_program cx -> my_program,
+  # NodeJS & NPM
+  /usr/local/bin/node ix,
+  /usr/local/lib/node_modules/** rm,
+  /opt/** rwix,
 
-  #profile my_program flags=(attach_disconnected,mediate_deleted) {
+  # MongoDB
+  /usr/bin/mongod cx -> mongodb,
+  /var/lib/mongodb/** rwk,
+  /var/log/mongodb/** rwk,
+
+  # MeiliSearch
+  /usr/bin/meilisearch cx -> meilisearch,
+  /var/lib/meilisearch/** rwk,
+
+  # Ingress Proxy
+  /usr/bin/node cx -> ingress_proxy,
+
+  profile mongodb flags=(attach_disconnected,mediate_deleted) {
     #include <abstractions/base>
+    
+    signal (receive) peer=librechat,
+    
+    /usr/bin/mongod r,
+    /var/lib/mongodb/** rwk,
+    /var/log/mongodb/** rwk,
+    /sys/kernel/mm/transparent_hugepage/enabled r,
+    /sys/kernel/mm/transparent_hugepage/defrag r,
+    network tcp,
+  }
 
-    # Receive signals from S6-Overlay
-  #  signal (receive) peer=*_librechat,
-  #  signal (receive) peer=*_mongodb,
+  profile meilisearch flags=(attach_disconnected,mediate_deleted) {
+    #include <abstractions/base>
+    
+    signal (receive) peer=librechat,
+    
+    /usr/bin/meilisearch r,
+    /var/lib/meilisearch/** rwk,
+    network tcp,
+  }
 
-    # Access to options.json and other files within your addon
-   # /data/** rw,
-
-    # Access to mapped volumes specified in config.json
-   # /share/** rw,
-
-    # Access required for service functionality
-    # Note: List was built by doing the following:
-    # 1. Add what is obviously needed based on what is in the script
-    # 2. Add `complain` as a flag to this profile temporarily and run the addon
-    # 3. Review the audit log with `journalctl _TRANSPORT="audit" -g 'apparmor="ALLOWED"'` and add other access as needed
-    # Remember to remove the `complain` flag when you are done
- #   /usr/bin/my_program r,
-  #  /bin/bash rix,
-  #  /bin/echo ix,
-  #  /etc/passwd r,
-  #  /dev/tty rw
-  #}
+  profile ingress_proxy flags=(attach_disconnected,mediate_deleted) {
+    #include <abstractions/base>
+    
+    signal (receive) peer=librechat,
+    
+    /usr/bin/node r,
+    /opt/proxy/** rm,
+    network tcp,
+  }
 }
