@@ -4,28 +4,26 @@ set -e
 
 # Wait for PostgreSQL to be ready
 bashio::log.info "Waiting for PostgreSQL to be ready..."
-until bashio::net.wait_for 5432 && su postgres -c "pg_isready" 2>/dev/null; do
+until bashio::net.wait_for "${DB_PORT:-5432}" && su postgres -c "pg_isready" 2>/dev/null; do
     bashio::log.info "PostgreSQL is not ready yet. Waiting..."
     sleep 2
 done
 
-# Set environment variables
-export POSTGRES_DB="ragapi"
-export POSTGRES_USER="postgres"
-export POSTGRES_PASSWORD="ragapipassword"
-export DB_HOST="localhost"
-export DB_PORT="5432"
-
 # Test database connection
 bashio::log.info "Testing database connection..."
-if psql -h localhost -U postgres -d ragapi -c '\l' >/dev/null 2>&1; then
+if psql -h "${DB_HOST:-localhost}" -U "${POSTGRES_USER:-postgres}" -d "${POSTGRES_DB:-ragapi}" -c '\l' >/dev/null 2>&1; then
     bashio::log.info "Database connection successful."
 else
     bashio::log.error "Failed to connect to the database. Check PostgreSQL logs for more information."
     exit 1
 fi
 
+# Create uploads directory if it doesn't exist
+if [ ! -d "${RAG_UPLOAD_DIR:-/share/rag_api/uploads}" ]; then
+    mkdir -p "${RAG_UPLOAD_DIR:-/share/rag_api/uploads}"
+fi
+
 # Start the RAG API
 bashio::log.info "Starting RAG API..."
 cd /app
-exec uvicorn main:app --host 0.0.0.0 --port 8000
+exec uvicorn main:app --host 0.0.0.0 --port 3085
