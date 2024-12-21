@@ -26,4 +26,21 @@ fi
 # Start the RAG API
 bashio::log.info "Starting RAG API..."
 cd /app
-exec uvicorn main:app --host 0.0.0.0 --port 3085
+
+# Test database more thoroughly with error output
+bashio::log.info "Performing final database check..."
+if ! db_status=$(psql -h "${DB_HOST:-localhost}" -U "${POSTGRES_USER:-postgres}" -d "${POSTGRES_DB:-ragapi}" -c '\conninfo' 2>&1); then
+    bashio::log.error "Database connection test failed:"
+    bashio::log.error "${db_status}"
+    exit 1
+fi
+bashio::log.info "Database connection info: ${db_status}"
+
+# Start uvicorn with improved logging
+exec uvicorn main:app \
+    --host 0.0.0.0 \
+    --port 3085 \
+    --log-level debug \
+    --access-log \
+    --use-colors \
+    2>&1 | bashio::log.info
