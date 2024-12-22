@@ -1,4 +1,5 @@
 # Build stage for pgvector
+# Build stage for pgvector
 ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base-debian:bullseye
 FROM $BUILD_FROM AS builder
 
@@ -51,6 +52,9 @@ RUN apt-get update && \
     python3-pip \
     postgresql-15 \
     postgresql-client-15 \
+    libpq5 \
+    && apt-get remove -y curl gnupg2 lsb-release \
+    && apt-get autoremove -y \
     libpq5 \
     && apt-get remove -y curl gnupg2 lsb-release \
     && apt-get autoremove -y \

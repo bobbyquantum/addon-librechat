@@ -64,3 +64,9 @@ chown postgres:postgres "$PGDATA/log"
 
 bashio::log.info "Starting PostgreSQL with enhanced logging..."
 exec su postgres -c "postgres -D $PGDATA 2>&1 | bashio::log.info"
+# Create log directory
+mkdir -p "$PGDATA/log"
+chown postgres:postgres "$PGDATA/log"
+
+bashio::log.info "Starting PostgreSQL with enhanced logging..."
+exec su postgres -c "postgres -D $PGDATA 2>&1 | bashio::log.info"
