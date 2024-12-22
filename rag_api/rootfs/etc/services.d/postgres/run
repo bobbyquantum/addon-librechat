@@ -7,9 +7,26 @@ if [ -z "$(ls -A "$PGDATA")" ]; then
     bashio::log.info "Initializing PostgreSQL database..."
     su postgres -c "initdb -D $PGDATA"
 
-    # Modify postgresql.conf to enable logging
-    echo "log_statement = 'all'" >> "$PGDATA/postgresql.conf"
-    echo "log_destination = 'stderr'" >> "$PGDATA/postgresql.conf"
+    # Enhanced PostgreSQL logging configuration
+    {
+        echo "log_destination = 'stderr'"
+        echo "logging_collector = on"
+        echo "log_directory = 'log'"
+        echo "log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'"
+        echo "log_rotation_age = 1d"
+        echo "log_rotation_size = 10MB"
+        echo "log_min_messages = info"
+        echo "log_min_error_statement = error"
+        echo "log_min_duration_statement = 1000"
+        echo "log_connections = on"
+        echo "log_disconnections = on"
+        echo "log_duration = on"
+        echo "log_line_prefix = '%m [%p] %q%u@%d '"
+        echo "log_statement = 'all'"
+        echo "log_checkpoints = on"
+        echo "log_lock_waits = on"
+        echo "log_temp_files = 0"
+    } >> "$PGDATA/postgresql.conf"
 
     # Start PostgreSQL temporarily to create database and extension
     su postgres -c "pg_ctl -D $PGDATA -l /var/log/postgresql/postgresql.log start"
@@ -31,5 +48,9 @@ if [ -z "$(ls -A "$PGDATA")" ]; then
     su postgres -c "pg_ctl -D $PGDATA stop"
 fi
 
-bashio::log.info "Starting PostgreSQL..."
-exec su postgres -c "postgres -D $PGDATA"
+# Create log directory
+mkdir -p "$PGDATA/log"
+chown postgres:postgres "$PGDATA/log"
+
+bashio::log.info "Starting PostgreSQL with enhanced logging..."
+exec su postgres -c "postgres -D $PGDATA 2>&1 | bashio::log.info"
