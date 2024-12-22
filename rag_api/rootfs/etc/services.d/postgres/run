@@ -7,8 +7,9 @@ if [ -z "$(ls -A "$PGDATA")" ]; then
     bashio::log.info "Initializing PostgreSQL database..."
     su postgres -c "initdb -D $PGDATA"
 
-    # Enhanced PostgreSQL logging configuration
+    # Enhanced PostgreSQL configuration
     {
+        echo "listen_addresses = '*'"  # Listen on all interfaces
         echo "log_destination = 'stderr'"
         echo "logging_collector = on"
         echo "log_directory = 'log'"
@@ -27,6 +28,15 @@ if [ -z "$(ls -A "$PGDATA")" ]; then
         echo "log_lock_waits = on"
         echo "log_temp_files = 0"
     } >> "$PGDATA/postgresql.conf"
+
+    # Configure authentication
+    {
+        echo "# TYPE  DATABASE        USER            ADDRESS                 METHOD"
+        echo "host    all            all             127.0.0.1/32           md5"
+        echo "host    all            all             ::1/128                md5"
+        echo "host    all            all             0.0.0.0/0             md5"
+        echo "local   all            all                                    trust"
+    } > "$PGDATA/pg_hba.conf"
 
     # Start PostgreSQL temporarily to create database and extension
     su postgres -c "pg_ctl -D $PGDATA -l /var/log/postgresql/postgresql.log start"

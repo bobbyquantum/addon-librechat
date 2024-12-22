@@ -1,6 +1,6 @@
 # Build stage for pgvector
 ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base-debian:bullseye
-FROM $BUILD_FROM as builder
+FROM $BUILD_FROM AS builder
 
 # Install build dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -28,17 +28,14 @@ RUN git clone --depth 1 https://github.com/pgvector/pgvector.git . && \
     ls -la /usr/share/postgresql/15/extension/vector* && \
     cp /usr/lib/postgresql/15/lib/vector.so /usr/lib/postgresql/15/lib/pgvector.so
 
-# Download RAG API source
-WORKDIR /rag_api
-RUN apt-get update && apt-get install -y --no-install-recommends git && \
-    git clone --depth 1 -b v0.3.0 https://github.com/danny-avila/rag_api.git . && \
-    rm -rf .git
-
 # Final stage
 FROM $BUILD_FROM
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Set working directory
+WORKDIR /app
 
 # Install runtime dependencies
 RUN apt-get update && \
@@ -67,17 +64,21 @@ ENV PGDATA /var/lib/postgresql/data
 COPY --from=builder /usr/lib/postgresql/15/lib/pgvector.so /usr/lib/postgresql/15/lib/
 COPY --from=builder /usr/share/postgresql/15/extension/vector* /usr/share/postgresql/15/extension/
 
-# Set working directory
-WORKDIR /app
+# Download RAG API source and install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends git && \
+    git clone --depth 1 -b v0.3.0 https://github.com/danny-avila/rag_api.git . && \
+    pip3 install -r requirements.txt && \
+    rm -rf .git && \
+    apt-get remove -y git && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy RAG API source
-COPY --from=builder /rag_api /app
-
-# Install Python dependencies
-RUN pip3 install --no-cache-dir -r requirements.txt
-
-# Create an empty .env file
-RUN touch .env
+# Create .env file with database configuration
+RUN echo "POSTGRES_USER=postgres" > .env && \
+    echo "POSTGRES_PASSWORD=ragapipassword" >> .env && \
+    echo "POSTGRES_DB=ragapi" >> .env && \
+    echo "DB_HOST=localhost" >> .env && \
+    echo "DB_PORT=5432" >> .env
 
 # Copy rootfs
 COPY rootfs /
@@ -88,8 +89,7 @@ RUN chmod a+x /etc/services.d/*/run /etc/services.d/*/finish
 # Create necessary directories
 RUN mkdir -p /var/lib/postgresql/data && chown -R postgres:postgres /var/lib/postgresql
 
-# Expose the API port and PostgreSQL port
-EXPOSE 8000 5432
+EXPOSE 3085 
 
 # Set up s6-overlay entrypoint
 ENTRYPOINT ["/init"]
