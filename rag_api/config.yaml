@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: RAG API
-version: "0.3.0"
+version: "0.3.0-1"
 slug: rag_api
 description: RAG API for LibreChat Add-on
 url: "https://github.com/BobbyQuantum/addon-librechat/tree/main/rag_api"
