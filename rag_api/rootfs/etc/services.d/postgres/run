@@ -11,7 +11,7 @@ chown -R postgres:postgres "$PGDATA"
 
 # Check if PostgreSQL data directory is empty
 if [ -z "$(ls -A "$PGDATA")" ]; then
-    bashio::log.info "Initializing PostgreSQL database..."
+    echo "Initializing PostgreSQL database..."
     su postgres -c "/usr/lib/postgresql/15/bin/initdb -D $PGDATA"
 
     # Enhanced PostgreSQL configuration
@@ -50,7 +50,7 @@ if [ -z "$(ls -A "$PGDATA")" ]; then
 
     # Wait for PostgreSQL to start
     until su postgres -c "pg_isready" 2>/dev/null; do
-        bashio::log.info "Waiting for PostgreSQL to start..."
+        echo "Waiting for PostgreSQL to start..."
         sleep 1
     done
 
@@ -65,5 +65,5 @@ if [ -z "$(ls -A "$PGDATA")" ]; then
     su postgres -c "pg_ctl -D $PGDATA stop"
 fi
 
-bashio::log.info "Starting PostgreSQL with enhanced logging..."
-exec su postgres -c "postgres -D $PGDATA 2>&1 | bashio::log.info"
+echo "Starting PostgreSQL with enhanced logging..."
+exec su postgres -c "postgres -D $PGDATA"
