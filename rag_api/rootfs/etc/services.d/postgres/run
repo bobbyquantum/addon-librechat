@@ -12,7 +12,7 @@ chown -R postgres:postgres "$PGDATA"
 # Check if PostgreSQL data directory is empty
 if [ -z "$(ls -A "$PGDATA")" ]; then
     bashio::log.info "Initializing PostgreSQL database..."
-    su postgres -c "initdb -D $PGDATA"
+    su postgres -c "/usr/lib/postgresql/15/bin/initdb -D $PGDATA"
 
     # Enhanced PostgreSQL configuration
     {
