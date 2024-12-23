@@ -32,3 +32,7 @@ Add postgres pgvector db
 ## 0.2.0
 
 Initial version
+
+## 0.3.0-4
+
+Replace bashio::log.info with echo in postgres run script to fix unrecognized command issue.
