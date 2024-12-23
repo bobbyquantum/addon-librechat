@@ -2,6 +2,13 @@
 # shellcheck shell=bash
 set -e
 
+# Ensure PostgreSQL binaries are in PATH
+export PATH=/usr/lib/postgresql/15/bin:$PATH
+
+# Create necessary directories
+mkdir -p "$PGDATA/log"
+chown -R postgres:postgres "$PGDATA"
+
 # Check if PostgreSQL data directory is empty
 if [ -z "$(ls -A "$PGDATA")" ]; then
     bashio::log.info "Initializing PostgreSQL database..."
@@ -57,16 +64,6 @@ if [ -z "$(ls -A "$PGDATA")" ]; then
     # Stop PostgreSQL
     su postgres -c "pg_ctl -D $PGDATA stop"
 fi
-
-# Create log directory
-mkdir -p "$PGDATA/log"
-chown postgres:postgres "$PGDATA/log"
-
-bashio::log.info "Starting PostgreSQL with enhanced logging..."
-exec su postgres -c "postgres -D $PGDATA 2>&1 | bashio::log.info"
-# Create log directory
-mkdir -p "$PGDATA/log"
-chown postgres:postgres "$PGDATA/log"
 
 bashio::log.info "Starting PostgreSQL with enhanced logging..."
 exec su postgres -c "postgres -D $PGDATA 2>&1 | bashio::log.info"

@@ -52,17 +52,20 @@ RUN apt-get update && \
     python3-pip \
     postgresql-15 \
     postgresql-client-15 \
-    libpq5 \
-    && apt-get remove -y curl gnupg2 lsb-release \
-    && apt-get autoremove -y \
+    postgresql-contrib-15 \
     libpq5 \
     && apt-get remove -y curl gnupg2 lsb-release \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Set PostgreSQL environment variables
-ENV PATH $PATH:/usr/lib/postgresql/15/bin
-ENV PGDATA /var/lib/postgresql/data
+ENV PATH=/usr/lib/postgresql/15/bin:$PATH
+ENV PGDATA=/var/lib/postgresql/data
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=ragapipassword
+ENV POSTGRES_DB=ragapi
+ENV DB_HOST=localhost
+ENV DB_PORT=5432
 
 # Copy pgvector from builder
 COPY --from=builder /usr/lib/postgresql/15/lib/pgvector.so /usr/lib/postgresql/15/lib/
