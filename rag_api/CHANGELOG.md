@@ -1,5 +1,8 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.3.0-5
+
+Adjust pgdata folder to use /data
 
 ## 0.3.0-3
 

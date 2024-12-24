@@ -60,7 +60,7 @@ RUN apt-get update && \
 
 # Set PostgreSQL environment variables
 ENV PATH=/usr/lib/postgresql/15/bin:$PATH
-ENV PGDATA=/var/lib/postgresql/data
+ENV PGDATA=/data/postgresql
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=ragapipassword
 ENV POSTGRES_DB=ragapi
@@ -94,7 +94,7 @@ COPY rootfs /
 RUN chmod a+x /etc/services.d/*/run /etc/services.d/*/finish
 
 # Create necessary directories
-RUN mkdir -p /var/lib/postgresql/data && chown -R postgres:postgres /var/lib/postgresql
+RUN mkdir -p /data && chown -R postgres:postgres /data
 
 EXPOSE 3085 
 
