@@ -12,8 +12,8 @@ mkdir -p "$PGDATA/log"
 chown -R postgres:postgres "$PGDATA"
 chmod 700 "$PGDATA"
 
-# Check if PostgreSQL data directory is empty
-if [ -z "$(ls -A "$PGDATA")" ]; then
+# Check if PostgreSQL needs initialization
+if [ ! -f "$PGDATA/postgresql.conf" ]; then
     bashio::log.info "Initializing PostgreSQL database..."
     if ! su postgres -c "/usr/lib/postgresql/15/bin/initdb -D $PGDATA"; then
         bashio::log.error "Failed to initialize PostgreSQL database"
