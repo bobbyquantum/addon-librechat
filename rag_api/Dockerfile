@@ -19,11 +19,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Build pgvector
+# Build pgvector without CPU-specific optimizations
 WORKDIR /build
 RUN git clone --depth 1 https://github.com/pgvector/pgvector.git . && \
-    make USE_PGXS=1 && \
-    make USE_PGXS=1 install && \
+    sed -i 's/-march=native//g' Makefile && \
+    CFLAGS="-O2" make USE_PGXS=1 && \
+    CFLAGS="-O2" make USE_PGXS=1 install && \
     echo "Verifying installation..." && \
     ls -la /usr/lib/postgresql/15/lib/vector.so && \
     ls -la /usr/share/postgresql/15/extension/vector*
