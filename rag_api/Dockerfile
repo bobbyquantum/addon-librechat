@@ -79,7 +79,7 @@ RUN echo "Verifying pgvector installation..." && \
 
 # Download RAG API source and install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends git && \
-    git clone --depth 1 -b v0.3.0 https://github.com/danny-avila/rag_api.git . && \
+    git clone --depth 1 https://github.com/danny-avila/rag_api.git . && \
     pip3 install -r requirements.txt && \
     rm -rf .git && \
     apt-get remove -y git && \
