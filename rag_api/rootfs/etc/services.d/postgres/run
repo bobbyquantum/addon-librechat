@@ -5,15 +5,21 @@ set -e
 # Ensure PostgreSQL binaries are in PATH
 export PATH=/usr/lib/postgresql/15/bin:$PATH
 
-# Create and set up PostgreSQL directories
-bashio::log.info "Setting up PostgreSQL directories in /data..."
-mkdir -p "$PGDATA"
-mkdir -p "$PGDATA/log"
-chown -R postgres:postgres "$PGDATA"
-chmod 700 "$PGDATA"
-
 # Check if PostgreSQL needs initialization
 if [ ! -f "$PGDATA/postgresql.conf" ]; then
+    bashio::log.info "Setting up fresh PostgreSQL installation..."
+    
+    # Clean up any existing data
+    if [ -d "$PGDATA" ]; then
+        bashio::log.info "Cleaning existing directory..."
+        rm -rf "$PGDATA"/*
+    fi
+    
+    # Create fresh directory
+    mkdir -p "$PGDATA"
+    chown postgres:postgres "$PGDATA"
+    chmod 700 "$PGDATA"
+    
     bashio::log.info "Initializing PostgreSQL database..."
     if ! su postgres -c "/usr/lib/postgresql/15/bin/initdb -D $PGDATA"; then
         bashio::log.error "Failed to initialize PostgreSQL database"
