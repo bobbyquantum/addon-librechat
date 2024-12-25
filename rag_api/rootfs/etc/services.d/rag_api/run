@@ -43,11 +43,4 @@ if ! db_status=$(PGPASSWORD="ragapipassword" psql -h "${DB_HOST:-localhost}" -U 
 fi
 bashio::log.info "Database connection info: ${db_status}"
 
-# Start uvicorn with improved logging
-exec uvicorn main:app \
-    --host 0.0.0.0 \
-    --port 3085 \
-    --log-level debug \
-    --access-log \
-    --use-colors \
-    2>&1 | bashio::log.info
+exec python main.py 2>&1 | bashio::log.info
