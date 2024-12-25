@@ -30,6 +30,15 @@ if [ ! -d "${RAG_UPLOAD_DIR:-/share/rag_api/uploads}" ]; then
     mkdir -p "${RAG_UPLOAD_DIR:-/share/rag_api/uploads}"
 fi
 
+# Copy .env file from config
+bashio::log.info "Copying .env file from config..."
+if [ -f "/config/.env" ]; then
+    cp /config/.env /app/.env
+    bashio::log.info ".env file copied successfully"
+else
+    bashio::log.warning "No .env file found in /config"
+fi
+
 # Start the RAG API
 bashio::log.info "Starting RAG API..."
 cd /app
