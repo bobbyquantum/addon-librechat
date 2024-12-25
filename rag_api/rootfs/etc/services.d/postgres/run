@@ -71,7 +71,14 @@ if [ ! -f "$PGDATA/postgresql.conf" ]; then
 
     # Create database and enable pgvector extension
     su postgres -c "createdb ragapi"
-    su postgres -c "psql -d ragapi -c 'CREATE EXTENSION IF NOT EXISTS vector;'"
+    
+    bashio::log.info "Creating pgvector extension..."
+    if ! su postgres -c "psql -d ragapi -c 'CREATE EXTENSION IF NOT EXISTS vector;'"; then
+        bashio::log.error "Failed to create pgvector extension. Checking extension files..."
+        ls -la /usr/lib/postgresql/15/lib/vector.so || bashio::log.error "vector.so not found"
+        ls -la /usr/share/postgresql/15/extension/vector* || bashio::log.error "vector extension files not found"
+        exit 1
+    fi
 
     # Stop PostgreSQL
     su postgres -c "pg_ctl -D $PGDATA stop"

@@ -26,8 +26,7 @@ RUN git clone --depth 1 https://github.com/pgvector/pgvector.git . && \
     make USE_PGXS=1 install && \
     echo "Verifying installation..." && \
     ls -la /usr/lib/postgresql/15/lib/vector.so && \
-    ls -la /usr/share/postgresql/15/extension/vector* && \
-    cp /usr/lib/postgresql/15/lib/vector.so /usr/lib/postgresql/15/lib/pgvector.so
+    ls -la /usr/share/postgresql/15/extension/vector*
 
 # Final stage
 FROM $BUILD_FROM
@@ -68,8 +67,15 @@ ENV DB_HOST=localhost
 ENV DB_PORT=5432
 
 # Copy pgvector from builder
-COPY --from=builder /usr/lib/postgresql/15/lib/pgvector.so /usr/lib/postgresql/15/lib/
+COPY --from=builder /usr/lib/postgresql/15/lib/vector.so /usr/lib/postgresql/15/lib/
 COPY --from=builder /usr/share/postgresql/15/extension/vector* /usr/share/postgresql/15/extension/
+
+# Verify pgvector files
+RUN echo "Verifying pgvector installation..." && \
+    ls -la /usr/lib/postgresql/15/lib/vector.so && \
+    ls -la /usr/share/postgresql/15/extension/vector* && \
+    echo "Creating pgvector symlink..." && \
+    ln -s /usr/lib/postgresql/15/lib/vector.so /usr/lib/postgresql/15/lib/pgvector.so
 
 # Download RAG API source and install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends git && \
