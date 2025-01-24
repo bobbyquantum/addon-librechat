@@ -4,7 +4,6 @@ FROM $BUILD_FROM
 ARG BUILD_ARCH
 
 ARG MEILISEARCH_VERSION
-ARG LIBRECHAT_VERSION
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -17,7 +16,6 @@ RUN cd /opt/proxy && npm install http-proxy express http-proxy-middleware body-p
     mkdir /opt/librechat && \
     cd /opt/librechat && \
     git clone https://github.com/danny-avila/LibreChat.git . && \
-    git checkout tags/${LIBRECHAT_VERSION} && \
     npm ci && npm run frontend && \
     # fix permissions
     chmod +x /etc/services.d/mongodb/run \
