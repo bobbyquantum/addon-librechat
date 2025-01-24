@@ -2,12 +2,16 @@
 
 profile librechat flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
+  #include <abstractions/openssl> 
 
   # Capabilities
   file,
   signal (send) set=(kill,term,int,hup,cont),
 
-  # S6-Overlay
+  /etc/ssl/openssl.cnf r,
+  /etc/ssl/certs/** r,
+  /usr/lib/ssl/openssl.cnf r,
+
   /init ix,
   /bin/** ix,
   /usr/bin/** ix,
@@ -20,16 +24,13 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
   /run/{,**} rwk,
   /dev/tty rw,
 
-  # Bashio
   /usr/lib/bashio/** ix,
   /tmp/** rwk,
 
-  # Access to options.json and other files within your addon
   /data/** rw,
   /share/** rw,
   /addon_config/** rw,
 
-  # NodeJS & NPM
   /usr/local/bin/node ix,
   /usr/local/lib/node_modules/** rm,
   /opt/** rwix,
