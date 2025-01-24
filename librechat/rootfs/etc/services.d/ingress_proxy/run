@@ -1,6 +1,0 @@
-#!/usr/bin/with-contenv bashio
-# shellcheck shell=bash
-## Run progress
-bashio::log.info "Starting Ingress Proxy"
-cd /opt/proxy || exit
-exec node ingress_proxy.js
