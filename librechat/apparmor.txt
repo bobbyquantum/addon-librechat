@@ -55,6 +55,18 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     /sys/kernel/mm/transparent_hugepage/enabled r,
     /sys/kernel/mm/transparent_hugepage/defrag r,
     network tcp,
+    
+    # Network access
+    network inet,
+    network inet6,
+    capability net_bind_service,
+    
+    # Additional required permissions
+    /etc/lsb-release r,
+    /etc/os-release r,
+    /proc/*/mounts r,
+    /sys/devices/system/node/ r,
+    /sys/devices/system/node/node*/meminfo r,
   }
 
   profile meilisearch flags=(attach_disconnected,mediate_deleted) {
