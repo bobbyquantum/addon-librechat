@@ -23,7 +23,8 @@ RUN curl -OL https://github.com/meilisearch/meilisearch/releases/download/${MEIL
     /etc/services.d/librechat/finish \
     /etc/services.d/meilisearch/run \
     /etc/services.d/meilisearch/finish \
-    /opt/meilisearch
+    /opt/meilisearch && \
+    chmod 644 /etc/ssl/openssl.cnf
 
 
 # Expose the MongoDB default port

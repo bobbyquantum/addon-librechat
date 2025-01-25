@@ -44,9 +44,6 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
   /usr/bin/meilisearch cx -> meilisearch,
   /var/lib/meilisearch/** rwk,
 
-  # Ingress Proxy
-  /usr/bin/node cx -> ingress_proxy,
-
   profile mongodb flags=(attach_disconnected,mediate_deleted) {
     #include <abstractions/base>
     
@@ -70,13 +67,4 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     network tcp,
   }
 
-  profile ingress_proxy flags=(attach_disconnected,mediate_deleted) {
-    #include <abstractions/base>
-    
-    signal (receive) peer=librechat,
-    
-    /usr/bin/node r,
-    /opt/proxy/** rm,
-    network tcp,
-  }
 }
