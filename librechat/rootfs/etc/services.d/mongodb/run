@@ -19,9 +19,21 @@ if [ -n "$DENIALS" ]; then
     done
 fi
 
+## Check and set permissions
+bashio::log.info "Checking /data/db permissions"
+ls -ld /data/db
+ls -l /data/db
+
+## Create directories if needed
+bashio::log.info "Creating required directories"
+mkdir -p /data/db
+mkdir -p /data/db/journal
+
+## Set permissions
+bashio::log.info "Setting directory permissions"
+chmod 0755 /data/db
+chmod 0700 /data/db/journal
+
 ## Run MongoDB
 bashio::log.info "Starting MongoDB"
-mkdir -p /data/db
-chown -R mongodb:mongodb /data/db
-chmod 0755 /data/db
 exec mongod --bind_ip 127.0.0.1 --port 27017

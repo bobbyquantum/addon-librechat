@@ -5,7 +5,7 @@ build_from:
 labels:
   org.opencontainers.image.title: "LibreChat"
   org.opencontainers.image.description: "LibreChat deployment for Home Assistant."
-  org.opencontainers.image.source: "https://github.com/BobbyQuantum/addon-librechat"
+  org.opencontainers.image.source: "https://github.com/bobbyquantum/addon-librechat"
   org.opencontainers.image.licenses: "Apache License 2.0"
 args:
   MONGODB_VERSION: "7.0"

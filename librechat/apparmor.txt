@@ -55,9 +55,6 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     /var/log/mongodb/** rwk,
     /data/db/** rwk,
     /data/db/journal/** rwk,
-    /data/db/WiredTiger.wt rwk,
-    /data/db/WiredTiger* rwk,
-    capability sys_admin,
     
     # System files
     /sys/kernel/mm/transparent_hugepage/enabled r,
