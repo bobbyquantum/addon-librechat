@@ -23,8 +23,6 @@ RUN curl -OL https://github.com/meilisearch/meilisearch/releases/download/${MEIL
     /etc/services.d/librechat/finish \
     /etc/services.d/meilisearch/run \
     /etc/services.d/meilisearch/finish \
-    /etc/services.d/ingress_proxy/run \
-    /etc/services.d/ingress_proxy/finish \
     /opt/meilisearch
 
 
