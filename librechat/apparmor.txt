@@ -87,6 +87,19 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     # Socket creation
     /tmp/mongodb-27017.sock rw,
     capability mknod,
+    /proc/version r,
+    /proc/*/mountinfo r,
+    /proc/sys/net/ipv4/tcp_fastopen r,
+    /sys/fs/cgroup/memory/memory.limit_in_bytes r,
+    
+    # SSL/TLS configuration
+    /etc/gnutls/config r,
+    /etc/ssl/openssl.cnf r,
+    /usr/lib/ssl/openssl.cnf r,
+    
+    # Socket creation
+    /tmp/mongodb-27017.sock rw,
+    capability mknod,
     
     # Logging
     /var/log/apparmor/ rw,
