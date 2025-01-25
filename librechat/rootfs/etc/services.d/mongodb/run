@@ -1,6 +1,25 @@
 #!/usr/bin/with-contenv bashio
 # shellcheck shell=bash
-## Run your program
+
+## Check AppArmor status
+bashio::log.info "Checking AppArmor status"
+if aa-status | grep -q "mongodb"; then
+    bashio::log.info "AppArmor profile loaded for MongoDB"
+else
+    bashio::log.warning "AppArmor profile not loaded for MongoDB"
+fi
+
+## Check for existing AppArmor denials
+bashio::log.info "Checking for AppArmor denials"
+DENIALS=$(dmesg | grep "apparmor" | grep "DENIED" | grep "mongodb")
+if [ -n "$DENIALS" ]; then
+    bashio::log.error "AppArmor denials detected:"
+    echo "$DENIALS" | while read -r line; do
+        bashio::log.error "$line"
+    done
+fi
+
+## Run MongoDB
 bashio::log.info "Starting MongoDB"
 mkdir -p /data/db
 exec mongod --bind_ip 127.0.0.1 --port 27017 --ipv6 false

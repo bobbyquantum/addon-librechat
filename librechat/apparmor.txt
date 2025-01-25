@@ -49,11 +49,19 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     
     signal (receive) peer=librechat,
     
+    # MongoDB binary and data
     /usr/bin/mongod mr,
     /var/lib/mongodb/** rwk,
     /var/log/mongodb/** rwk,
+    
+    # System files
     /sys/kernel/mm/transparent_hugepage/enabled r,
     /sys/kernel/mm/transparent_hugepage/defrag r,
+    /etc/lsb-release r,
+    /etc/os-release r,
+    /proc/*/mounts r,
+    /sys/devices/system/node/ r,
+    /sys/devices/system/node/node*/meminfo r,
     
     # Network access
     network inet stream,
@@ -61,11 +69,19 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     capability net_bind_service,
     
     # Additional required permissions
-    /etc/lsb-release r,
-    /etc/os-release r,
-    /proc/*/mounts r,
-    /sys/devices/system/node/ r,
-    /sys/devices/system/node/node*/meminfo r,
+    /run/mongodb/** rwk,
+    /tmp/mongodb-27017.sock rw,
+    /proc/*/fd/ r,
+    /proc/*/net/ r,
+    /proc/*/stat r,
+    
+    # Logging
+    /var/log/apparmor/ rw,
+    /var/log/apparmor/mongodb.log w,
+    
+    # Debugging
+    audit deny /var/lib/mongodb/** w,
+    audit deny /var/log/mongodb/** w,
   }
 
   profile meilisearch flags=(attach_disconnected,mediate_deleted) {
