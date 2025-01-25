@@ -43,7 +43,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
   # MeiliSearch
   /usr/bin/meilisearch cx -> meilisearch,
   /var/lib/meilisearch/** rwk,
-
+  
   profile mongodb flags=(attach_disconnected,mediate_deleted) {
     #include <abstractions/base>
     
@@ -52,9 +52,8 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     # MongoDB binary and data
     /usr/bin/mongod mr,
     /var/lib/mongodb/** rwk,
-    /var/log/mongodb/** rwk,
-    /data/db/** rwk,
-    /data/db/journal/** rwk,
+    /data/db/** rwkl,
+    /data/db/mongod.lock rwcl,
     
     # System files
     /sys/kernel/mm/transparent_hugepage/enabled r,
@@ -65,51 +64,25 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     /sys/devices/system/node/ r,
     /sys/devices/system/node/node*/meminfo r,
     
-    # Network access
-    network inet stream,
-    network inet6 stream,
+    # Add missing permissions from error logs
+    /etc/ssl/openssl.cnf r,
+    /sys/fs/cgroup/memory/memory.limit_in_bytes r,
+    /proc/version r,
+    /proc/*/mountinfo r,
+    /proc/sys/net/ipv4/tcp_fastopen r,
+    /etc/gnutls/config r,
+    
+    # Socket permissions
+    /tmp/mongodb-27017.sock rwcl,
+    /run/s6/legacy-services/mongodb/core rwcl,
+    
+    # Required capabilities
+    capability mknod,
     capability net_bind_service,
     
-    # Additional required permissions
-    /run/mongodb/** rwk,
-    /tmp/mongodb-27017.sock rw,
-    /proc/*/fd/ r,
-    /proc/*/net/ r,
-    /proc/*/stat r,
-    /proc/version r,
-    /proc/*/mountinfo r,
-    /proc/sys/net/ipv4/tcp_fastopen r,
-    /sys/fs/cgroup/memory/memory.limit_in_bytes r,
-    
-    # SSL/TLS configuration
-    /etc/gnutls/config r,
-    /etc/ssl/openssl.cnf r,
-    /usr/lib/ssl/openssl.cnf r,
-    
-    # Socket creation
-    /tmp/mongodb-27017.sock rw,
-    capability mknod,
-    /proc/version r,
-    /proc/*/mountinfo r,
-    /proc/sys/net/ipv4/tcp_fastopen r,
-    /sys/fs/cgroup/memory/memory.limit_in_bytes r,
-    
-    # SSL/TLS configuration
-    /etc/gnutls/config r,
-    /etc/ssl/openssl.cnf r,
-    /usr/lib/ssl/openssl.cnf r,
-    
-    # Socket creation
-    /tmp/mongodb-27017.sock rw,
-    capability mknod,
-    
-    # Logging
-    /var/log/apparmor/ rw,
-    /var/log/apparmor/mongodb.log w,
-    
-    # Debugging
-    audit deny /var/lib/mongodb/** w,
-    audit deny /var/log/mongodb/** w,
+    # Network access
+    network inet stream,
+    network inet6 stream
   }
 
   profile meilisearch flags=(attach_disconnected,mediate_deleted) {
