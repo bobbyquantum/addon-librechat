@@ -22,4 +22,4 @@ fi
 ## Run MongoDB
 bashio::log.info "Starting MongoDB"
 mkdir -p /data/db
-exec mongod --bind_ip 127.0.0.1 --port 27017 --ipv6 false
+exec mongod --bind_ip 127.0.0.1 --port 27017
