@@ -43,11 +43,11 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
   # MeiliSearch
   /usr/bin/meilisearch cx -> meilisearch,
   /var/lib/meilisearch/** rwk,
-  
+
   profile mongodb flags=(attach_disconnected,mediate_deleted) {
     #include <abstractions/base>
     
-    signal (receive) peer=librechat,
+    signal (receive) peer=*_librechat,
     
     # MongoDB binary and data
     /usr/bin/mongod mr,
