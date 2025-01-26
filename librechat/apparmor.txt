@@ -12,6 +12,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
   network inet6 stream,
   network inet dgram,
   network inet6 dgram,
+  network netlink raw,
 
   # S6-Overlay
   /init ix,
@@ -58,7 +59,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     /var/lib/mongodb/** rwk,
     /var/log/mongodb/** rwk,
 
-    /data/db rwc,
+    /data/db/** rwc,
 
     /etc/gnutls/config r,
     /etc/ssl/openssl.cnf r,

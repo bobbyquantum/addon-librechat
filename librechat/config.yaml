@@ -1,11 +1,10 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: LibreChat
 slug: librechat
-version: "0.7.6-7818ae5-34"
+version: "0.7.6-7818ae5-35"
 description: Open-source AI chat platform integrating multiple models and services.
 url: "https://github.com/BobbyQuantum/addon-librechat/tree/main/librechat"
 arch:
-  - aarch64
   - amd64
 init: false
 map:
