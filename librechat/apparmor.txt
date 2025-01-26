@@ -66,6 +66,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
     /etc/ssl/openssl.cnf r,
     /sys/fs/cgroup/memory/memory.limit_in_bytes r,
     /sys/block/ r,
+    /sys/block/** r,
     /proc/** r,
     /tmp/mongodb-*.sock rw,
 
@@ -87,7 +88,10 @@ profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
     /data/meilisearch/ rwk,
     /data/meilisearch/** rwk,
     /root/ rw,
-
+    /root/.config/Meilisearch/ rw,
+    /root/.config/Meilisearch/** rwk,
+    /run/s6/legacy-services/meilisearch/dumps/ rw,
+    
     /run/s6/legacy-services/meilisearch/dumps/
     /proc/** r,
     /sys/fs/** r,
