@@ -57,6 +57,15 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     /usr/bin/mongod r,
     /var/lib/mongodb/** rwk,
     /var/log/mongodb/** rwk,
+
+    /etc/gnutls/config r,
+    /etc/ssl/openssl.cnf r,
+    /sys/fs/cgroup/memory/memory.limit_in_bytes r,
+    /proc/version r,
+    /proc/*/mountinfo r,
+    /proc/sys/net/ipv4/tcp_fastopen r,
+    /tmp/mongodb-*.sock rw,
+
     /sys/kernel/mm/transparent_hugepage/enabled r,
     /sys/kernel/mm/transparent_hugepage/defrag r,
     /run/s6/legacy-services/mongodb/** rwk,
