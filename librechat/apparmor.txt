@@ -7,6 +7,12 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
   file,
   signal (send) set=(kill,term,int,hup,cont),
 
+  # Network capabilities
+  network inet stream,
+  network inet6 stream,
+  network inet dgram,
+  network inet6 dgram,
+
   # S6-Overlay
   /init ix,
   /bin/** ix,
@@ -53,6 +59,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     /var/log/mongodb/** rwk,
     /sys/kernel/mm/transparent_hugepage/enabled r,
     /sys/kernel/mm/transparent_hugepage/defrag r,
+    /run/s6/legacy-services/mongodb/** rwk,
     network tcp,
   }
 
@@ -63,6 +70,11 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     
     /usr/bin/meilisearch r,
     /var/lib/meilisearch/** rwk,
+    network inet stream,
+    network inet6 stream,
+    network inet dgram,
+    network inet6 dgram,
+    network netlink raw,
     network tcp,
   }
 }
