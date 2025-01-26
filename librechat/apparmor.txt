@@ -80,15 +80,8 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     
     # Socket permissions
     /tmp/mongodb-27017.sock rwcl,
-    /run/s6/legacy-services/mongodb/core rwcl,
+    /run/s6/legacy-services/mongodb/core rwcl
     
-    # Required capabilities
-    capability mknod,
-    capability net_bind_service,
-    
-    # Network access
-    network inet stream,
-    network inet6 stream
   }
 
   profile meilisearch flags=(attach_disconnected,mediate_deleted) {
@@ -97,8 +90,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     signal (receive) peer=*_librechat,
     
     /usr/bin/meilisearch r,
-    /var/lib/meilisearch/** rwk,
-    network tcp,
+    /var/lib/meilisearch/** rwk
   }
 
 }
