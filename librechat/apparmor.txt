@@ -2,22 +2,12 @@
 
 profile librechat flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
-  #include <abstractions/openssl> 
 
   # Capabilities
   file,
   signal (send) set=(kill,term,int,hup,cont),
 
-  network inet stream,
-  network inet6 stream,
-  network inet dgram,
-  network inet6 dgram,
-  network netlink raw,
-
-  /etc/ssl/openssl.cnf r,
-  /etc/ssl/certs/** r,
-  /usr/lib/ssl/openssl.cnf r,
-
+  # S6-Overlay
   /init ix,
   /bin/** ix,
   /usr/bin/** ix,
@@ -30,13 +20,16 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
   /run/{,**} rwk,
   /dev/tty rw,
 
+  # Bashio
   /usr/lib/bashio/** ix,
   /tmp/** rwk,
 
+  # Access to options.json and other files within your addon
   /data/** rw,
   /share/** rw,
   /addon_config/** rw,
 
+  # NodeJS & NPM
   /usr/local/bin/node ix,
   /usr/local/lib/node_modules/** rm,
   /opt/** rwix,
@@ -55,33 +48,12 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     
     signal (receive) peer=*_librechat,
     
-    # MongoDB binary and data
-    /usr/bin/mongod mr,
+    /usr/bin/mongod r,
     /var/lib/mongodb/** rwk,
-    /data/db/** rwkl,
-    /data/db/mongod.lock rwcl,
-    
-    # System files
+    /var/log/mongodb/** rwk,
     /sys/kernel/mm/transparent_hugepage/enabled r,
     /sys/kernel/mm/transparent_hugepage/defrag r,
-    /etc/lsb-release r,
-    /etc/os-release r,
-    /proc/*/mounts r,
-    /sys/devices/system/node/ r,
-    /sys/devices/system/node/node*/meminfo r,
-    
-    # Add missing permissions from error logs
-    /etc/ssl/openssl.cnf r,
-    /sys/fs/cgroup/memory/memory.limit_in_bytes r,
-    /proc/version r,
-    /proc/*/mountinfo r,
-    /proc/sys/net/ipv4/tcp_fastopen r,
-    /etc/gnutls/config r,
-    
-    # Socket permissions
-    /tmp/mongodb-27017.sock rwcl,
-    /run/s6/legacy-services/mongodb/core rwcl
-    
+    network tcp,
   }
 
   profile meilisearch flags=(attach_disconnected,mediate_deleted) {
@@ -90,7 +62,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     signal (receive) peer=*_librechat,
     
     /usr/bin/meilisearch r,
-    /var/lib/meilisearch/** rwk
+    /var/lib/meilisearch/** rwk,
+    network tcp,
   }
-
 }
