@@ -47,7 +47,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
   /var/log/mongodb/** rwk,
 
   # MeiliSearch
-  /opt/meilisearch cmx -> meilisearch,
+  /opt/meilisearch cx -> meilisearch,
   /var/lib/meilisearch/** rwk,
 
   profile mongodb flags=(attach_disconnected,mediate_deleted,complain) {
@@ -65,6 +65,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
     /etc/gnutls/config r,
     /etc/ssl/openssl.cnf r,
     /sys/fs/cgroup/memory/memory.limit_in_bytes r,
+    /sys/block r
     /sys/block/ r,
     /sys/block/** r,
     /proc/** r,
@@ -88,11 +89,12 @@ profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
     /data/meilisearch/ rwk,
     /data/meilisearch/** rwk,
     /root/ rw,
+    /root/** rw,
     /root/.config/Meilisearch/ rw,
     /root/.config/Meilisearch/** rwk,
     /run/s6/legacy-services/meilisearch/dumps/ rw,
-    
-    /run/s6/legacy-services/meilisearch/dumps/
+
+    /run/s6/legacy-services/meilisearch/dumps/** rw,
     /proc/** r,
     /sys/fs/** r,
     /etc/nsswitch.conf r,
