@@ -80,11 +80,22 @@ profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
     
     signal (receive) peer=*_librechat,
     
-    /opt/meilisearch r,
+    /opt/meilisearch rm,
     /var/lib/meilisearch/** rwk,
+    /data/meilisearch rwk,
+    /data/meilisearch/ rwk,
     /data/meilisearch/** rwk,
+    /root/ rw,
+
+    /run/s6/legacy-services/meilisearch/dumps/
     /proc/** r,
     /sys/fs/** r,
+    /etc/nsswitch.conf r,
+    /etc/host.conf r,
+    /etc/resolv.conf r,
+    /etc/hosts r,
+    /etc/gai.conf r,
+
     network inet stream,
     network inet6 stream,
     network inet dgram,
