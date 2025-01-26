@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
+profile librechat flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
 
   # Capabilities
@@ -50,7 +50,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
   /opt/meilisearch cx -> meilisearch,
   /var/lib/meilisearch/** rwk,
 
-  profile mongodb flags=(attach_disconnected,mediate_deleted,complain) {
+  profile mongodb flags=(attach_disconnected,mediate_deleted) {
     #include <abstractions/base>
     
     signal (receive) peer=*_librechat,
@@ -78,7 +78,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
     network tcp,
   }
 
-  profile meilisearch flags=(attach_disconnected,mediate_deleted,complain) {
+  profile meilisearch flags=(attach_disconnected,mediate_deleted) {
     #include <abstractions/base>
     
     signal (receive) peer=*_librechat,
