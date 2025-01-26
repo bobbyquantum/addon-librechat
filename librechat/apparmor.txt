@@ -60,6 +60,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     /sys/kernel/mm/transparent_hugepage/enabled r,
     /sys/kernel/mm/transparent_hugepage/defrag r,
     /run/s6/legacy-services/mongodb/** rwk,
+    /etc/lsb-release r,
     network tcp,
   }
 

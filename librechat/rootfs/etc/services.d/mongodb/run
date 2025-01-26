@@ -1,14 +1,6 @@
 #!/usr/bin/with-contenv bashio
 # shellcheck shell=bash
 
-## Check AppArmor status
-bashio::log.info "Checking AppArmor status"
-if aa-status | grep -q "mongodb"; then
-    bashio::log.info "AppArmor profile loaded for MongoDB"
-else
-    bashio::log.warning "AppArmor profile not loaded for MongoDB"
-fi
-
 mkdir -p /data/db
 
 ## Run MongoDB
