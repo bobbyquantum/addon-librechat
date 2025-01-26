@@ -9,30 +9,7 @@ else
     bashio::log.warning "AppArmor profile not loaded for MongoDB"
 fi
 
-## Check for existing AppArmor denials
-bashio::log.info "Checking for AppArmor denials"
-DENIALS=$(dmesg | grep "apparmor" | grep "DENIED" | grep "mongodb")
-if [ -n "$DENIALS" ]; then
-    bashio::log.error "AppArmor denials detected:"
-    echo "$DENIALS" | while read -r line; do
-        bashio::log.error "$line"
-    done
-fi
-
-## Check and set permissions
-bashio::log.info "Checking /data/db permissions"
-ls -ld /data/db
-ls -l /data/db
-
-## Create directories if needed
-bashio::log.info "Creating required directories"
 mkdir -p /data/db
-mkdir -p /data/db/journal
-
-## Set permissions
-bashio::log.info "Setting directory permissions"
-chmod 0755 /data/db
-chmod 0700 /data/db/journal
 
 ## Run MongoDB
 bashio::log.info "Starting MongoDB"
