@@ -12,6 +12,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
   network inet6 stream,
   network inet dgram,
   network inet6 dgram,
+  network raw,
 
   # S6-Overlay
   /init ix,
@@ -57,18 +58,14 @@ profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
     /usr/bin/mongod r,
     /var/lib/mongodb/** rwk,
     /var/log/mongodb/** rwk,
-    /data/db rw,
-    /data/db/** rw,
-    /data/db/journal/** rw,
+    /data/db rwk,
+    /data/db/ rwk,
+    /data/db/** rwk,
+    /data/db/journal/** rwk,
     /etc/gnutls/config r,
     /etc/ssl/openssl.cnf r,
     /sys/fs/cgroup/memory/memory.limit_in_bytes r,
-    /proc/version r,
-    /proc/*/mountinfo r,
-    /proc/sys/vm/zone_reclaim_mode r,
-    /proc/sys/vm/max_map_count r,
-    
-    /proc/sys/net/ipv4/tcp_fastopen r,
+    /proc/** r,
     /tmp/mongodb-*.sock rw,
 
     /sys/kernel/mm/transparent_hugepage/enabled r,
