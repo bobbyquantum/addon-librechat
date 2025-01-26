@@ -14,6 +14,6 @@ map:
 ports:
   3080/tcp: 3080
 image: "ghcr.io/bobbyquantum/{arch}-addon-librechat-canary"
-codenotary: true
-codenotary.signer: "bobby@quantum.observer"
-codenotary.base_image: "notary@home-assistant.io"
+codenotary:
+  signer: "bobby@quantum.observer"
+  base_image: "notary@home-assistant.io"
