@@ -31,7 +31,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
   /tmp/** rwk,
 
   # Access to options.json and other files within your addon
-  /data/** rwc,
+  /data/** rw,
   /share/** rw,
   /addon_config/** rw,
 
@@ -57,7 +57,8 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     /usr/bin/mongod r,
     /var/lib/mongodb/** rwk,
     /var/log/mongodb/** rwk,
-
+    /data/db/** rw,
+    /data/db/journal/** rw,
     /etc/gnutls/config r,
     /etc/ssl/openssl.cnf r,
     /sys/fs/cgroup/memory/memory.limit_in_bytes r,
