@@ -8,6 +8,12 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
   file,
   signal (send) set=(kill,term,int,hup,cont),
 
+  network inet stream,
+  network inet6 stream,
+
+  # Allow npm raw socket access
+  network netlink raw,
+
   /etc/ssl/openssl.cnf r,
   /etc/ssl/certs/** r,
   /usr/lib/ssl/openssl.cnf r,
