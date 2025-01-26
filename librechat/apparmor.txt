@@ -82,6 +82,9 @@ profile librechat flags=(attach_disconnected,mediate_deleted,complain) {
     
     /opt/meilisearch r,
     /var/lib/meilisearch/** rwk,
+    /data/meilisearch/** rwk,
+    /proc/** r,
+    /sys/fs/** r,
     network inet stream,
     network inet6 stream,
     network inet dgram,
