@@ -97,7 +97,7 @@ profile librechat flags=(attach_disconnected,mediate_deleted) {
     /run/s6/legacy-services/meilisearch/dumps/** rw,
     /proc/** r,
     /sys/fs/** r,
-    /tmp/** rwk,
+    /tmp/** rwkm,
     /etc/nsswitch.conf r,
     /etc/host.conf r,
     /etc/resolv.conf r,
