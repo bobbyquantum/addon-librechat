@@ -1,6 +1,8 @@
 #!/usr/bin/with-contenv bashio
 # shellcheck shell=bash
-## Run your program
-bashio::log.info "Starting MongoDB"
+
 mkdir -p /data/db
-exec mongod --bind_ip 0.0.0.0 --quiet > /dev/null
+
+## Run MongoDB
+bashio::log.info "Starting MongoDB"
+exec mongod --bind_ip 127.0.0.1 --port 27017

@@ -1,6 +1,38 @@
 #!/usr/bin/with-contenv bashio
 # shellcheck shell=bash
 ## Run meilisearch
+
 bashio::log.info "Starting Meilisearch"
 mkdir -p /data/meilisearch
+
+# Try to start Meilisearch first
+/opt/meilisearch --db-path /data/meilisearch > /tmp/meilisearch_output 2>&1 &
+MEILISEARCH_PID=$!
+
+# Wait a moment for Meilisearch to start and potentially report errors
+sleep 3
+
+# Check if process is still running
+if ! kill -0 $MEILISEARCH_PID 2>/dev/null; then
+    # Process already exited
+    ERROR_OUTPUT=$(cat /tmp/meilisearch_output)
+    # Check for the version incompatibility error
+    if [[ "$ERROR_OUTPUT" == *"database version"*"incompatible with your current engine version"* ]]; then
+        bashio::log.warning "Detected Meilisearch version incompatibility."
+        bashio::log.warning "Removing old database and starting fresh..."
+        
+        # Stop any remaining process
+        kill $MEILISEARCH_PID 2>/dev/null || true
+        
+        # Remove the old database
+        rm -rf /data/meilisearch/*
+        
+        # Log the action
+        bashio::log.info "Old Meilisearch database cleared. Starting with fresh database."
+    else
+        # Some other error occurred, output it and exit
+        bashio::log.error "Meilisearch failed to start: $ERROR_OUTPUT"
+    fi
+fi
+
 exec /opt/meilisearch --db-path /data/meilisearch

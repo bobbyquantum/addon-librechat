@@ -1,5 +1,5 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
-## 0.3.0-12
+## 0.4.0
 
-Use latest rag API from git rather than tagged release.
+Update to 0.4.0 (https://github.com/danny-avila/rag_api/releases/tag/v0.4.0)
