@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.7-1
+
+- Fix Meilisearch version incompatibility issue by automatically resetting database when version mismatch is detected (warning - search indexes will be cleared)
+
 ## 0.7.7
 
 - Update to librechat 0.7.7
