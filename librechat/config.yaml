@@ -13,6 +13,6 @@ map:
   - addon_config:rw
 ports:
   3080/tcp: 3080
-image: "ghcr.io/bobbyquantum/{arch}-addon-librechat-canary"
+image: "ghcr.io/bobbyquantum/{arch}-addon-librechat"
 privileged: ["NET_RAW"]
 codenotary: "bobby@quantum.observer"

@@ -13,4 +13,4 @@ map:
   - addon_config:rw
 ports:
   3085/tcp: 3085
-image: "ghcr.io/bobbyquantum/{arch}-addon-rag_api-canary"
+image: "ghcr.io/bobbyquantum/{arch}-addon-rag_api"
