@@ -66,7 +66,7 @@ ENV POSTGRES_PASSWORD=ragapipassword
 ENV POSTGRES_DB=ragapi
 ENV DB_HOST=localhost
 ENV DB_PORT=5432
-
+ARG RAG_API_VERSION
 # Copy pgvector from builder
 COPY --from=builder /usr/lib/postgresql/15/lib/vector.so /usr/lib/postgresql/15/lib/
 COPY --from=builder /usr/share/postgresql/15/extension/vector* /usr/share/postgresql/15/extension/
@@ -81,6 +81,7 @@ RUN echo "Verifying pgvector installation..." && \
 # Download RAG API source and install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends git && \
     git clone --depth 1 https://github.com/danny-avila/rag_api.git . && \
+    git checkout tags/${RAG_API_VERSION} && \
     pip3 install -r requirements.txt && \
     rm -rf .git && \
     apt-get remove -y git && \
