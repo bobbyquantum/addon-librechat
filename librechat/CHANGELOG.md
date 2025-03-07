@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.7-2
+
+- Fix Meilisearch "Address already in use" error by properly terminating test instance
+- Improve Meilisearch failure handling to prevent entire add-on from halting
+
 ## 0.7.7-1
 
 - Fix Meilisearch version incompatibility issue by automatically resetting database when version mismatch is detected (warning - search indexes will be cleared)
