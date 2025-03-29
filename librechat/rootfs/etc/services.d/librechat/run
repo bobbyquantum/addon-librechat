@@ -3,6 +3,14 @@
 cd /opt/librechat || exit
 bashio::log.info "Starting LibreChat Backend"
 
+# Create persistent images directory if it doesn't exist
+mkdir -p /data/images
+
+# Create a symlink from the application's images directory to the persistent data directory
+# Remove existing directory first to ensure the symlink works
+rm -rf /opt/librechat/client/public/images
+ln -s /data/images /opt/librechat/client/public/images
+
 #if there isn't a default env file, then copy one.
 if [ ! -f /config/.env ]; then
     cp .env.example /config/.env

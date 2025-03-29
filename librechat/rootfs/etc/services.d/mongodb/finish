@@ -1,7 +1,39 @@
 #!/usr/bin/env bashio
-if [[ "${1}" -ne 0 ]]; then
-  bashio::log.warning "MongoDB crashed, halting add-on"
-  /run/s6/basedir/bin/halt
-fi
 
-bashio::log.info "MongoDB stopped, restarting..."
+# Debugging: Log environment and AppArmor status
+bashio::log.info "Gathering system information..."
+bashio::log.debug "AppArmor status: $(aa-status)"
+bashio::log.debug "Current profile: $(cat /proc/$$/attr/current)"
+bashio::log.debug "Mounted filesystems:"
+mount | grep -E '(data|etc|ssl)' | while read -r line; do
+  bashio::log.debug "$line"
+done
+
+# Check if MongoDB crashed
+if [[ "${1}" -ne 0 ]]; then
+  bashio::log.warning "MongoDB crashed, gathering information..."
+  
+  # Get recent AppArmor denials
+  bashio::log.warning "Recent AppArmor denials:"
+  dmesg | grep 'apparmor="DENIED"' | tail -n 20 | while read -r line; do
+    bashio::log.warning "$line"
+  done
+  
+  # Get MongoDB logs
+  if [ -f /var/log/mongodb/mongod.log ]; then
+    bashio::log.warning "Last 20 lines of MongoDB log:"
+    tail -n 20 /var/log/mongodb/mongod.log | while read -r line; do
+      bashio::log.warning "$line"
+    done
+  fi
+  
+  # Add delay before halting
+  bashio::log.warning "MongoDB crashed, waiting 1 minutes before halting..."
+  sleep 60
+  
+  # Halt the container
+  bashio::log.warning "Halting add-on..."
+  /run/s6/basedir/bin/halt
+else
+  bashio::log.info "MongoDB stopped normally, restarting..."
+fi
