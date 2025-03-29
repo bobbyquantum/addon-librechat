@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.7.8-snapshot
+
+- Update to latest dev branch
+
 ## 0.7.7-2
 
 - Fix Meilisearch "Address already in use" error by properly terminating test instance
