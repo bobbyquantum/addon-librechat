@@ -1,8 +1,8 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
-## 0.7.8-snapshot
+## 0.7.8-snapshot2
 
-- Update to latest dev branch
+- Update to latest dev branch (20/04)
 
 ## 0.7.7-2
 
