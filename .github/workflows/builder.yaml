@@ -89,7 +89,20 @@ jobs:
             echo "build_arch=false" >> $GITHUB_OUTPUT;
           elif [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
             echo "build_arch=true" >> $GITHUB_OUTPUT;
-            echo "image=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)" >> $GITHUB_OUTPUT;
+            
+            # Determine image suffix based on branch
+            if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+              # Main branch: remove -canary suffix if present
+              image_name=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3 | sed 's/-canary$//')
+            else
+              # Other branches (including canary): keep -canary suffix
+              image_name=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)
+              if [[ ! "$image_name" =~ -canary$ ]]; then
+                image_name="${image_name}-canary"
+              fi
+            fi
+            
+            echo "image=$image_name" >> $GITHUB_OUTPUT;
             if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
                 echo "BUILD_ARGS=" >> $GITHUB_ENV;
             fi
