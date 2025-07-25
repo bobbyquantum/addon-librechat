@@ -1,4 +1,4 @@
 # https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
 name: LibreChat Home Assistant add-on repository - canary
-url: "https://github.com/BobbyQuantum/addon-librechat"
-maintainer: Bobby Quantum <166758526+BobbyQuantum@users.noreply.github.com>
+url: "https://github.com/bobbyquantum/addon-librechat"
+maintainer: Bobby Quantum <166758526+bobbyquantum@users.noreply.github.com>
