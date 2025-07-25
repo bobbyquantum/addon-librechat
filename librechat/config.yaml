@@ -1,7 +1,7 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: LibreChat
 slug: librechat
-version: "0.7.9"
+version: "0.7.9-1"
 description: Open-source AI chat platform integrating multiple models and services.
 url: "https://github.com/bobbyquantum/addon-librechat/tree/main/librechat"
 arch:
@@ -16,3 +16,4 @@ ports:
 image: "ghcr.io/bobbyquantum/{arch}-addon-librechat-canary"
 privileged: ["NET_RAW"]
 codenotary: "bobby@quantum.observer"
+# Updated to v0.7.9-1
