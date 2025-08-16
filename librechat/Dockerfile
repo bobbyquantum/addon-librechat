@@ -36,8 +36,7 @@ RUN curl -OL https://github.com/meilisearch/meilisearch/releases/download/${MEIL
     mkdir /opt/librechat && \
     cd /opt/librechat && \
     git clone https://github.com/danny-avila/LibreChat.git . && \
-    #    git checkout tags/${LIBRECHAT_VERSION} && \
-    git checkout a10bc879793727ee0842596cd90db0a0250e96c1 && \
+    git checkout tags/${LIBRECHAT_VERSION} && \
     npm ci && npm run frontend && \
     # fix permissions
     chmod +x /etc/services.d/mongodb/run \
