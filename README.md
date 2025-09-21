@@ -4,7 +4,7 @@
 
 This repository contains the following add-ons:
 
- - **LibreChat v0.8.0-rc4** - Open-source AI chat platform
+- **LibreChat v0.8.0-rc4** - Open-source AI chat platform
 - **RAG API v0.5.0** - RAG API for enhanced chat capabilities
 
 ### [LibreChat add-on](./librechat)
@@ -33,7 +33,6 @@ Notes to developers after forking or using the github template feature:
  -->
 
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
-
 
 ### [RAG API add-on](./rag_api)
 

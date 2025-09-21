@@ -63,7 +63,7 @@
 
 ## 0.7.3-alpha6
 
-- [Breaking] Switch to addon_config for .env.  .env file created in addon_config/librechat on first run. See docs or https://www.librechat.ai/docs/configuration for guide.
+- [Breaking] Switch to addon_config for .env. .env file created in addon_config/librechat on first run. See docs or https://www.librechat.ai/docs/configuration for guide.
 
 ## 0.7.3-alpha5
 
