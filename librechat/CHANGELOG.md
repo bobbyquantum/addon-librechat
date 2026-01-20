@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.8.2-rc3
+
+- Update to LibreChat 0.8.2-rc3 (https://github.com/danny-avila/LibreChat/releases/tag/v0.8.2-rc3)
+
 ## 0.8.2-rc2
 
 - Update to LibreChat 0.8.2-rc2 (https://github.com/danny-avila/LibreChat/releases/tag/v0.8.2-rc2)
