@@ -4,7 +4,7 @@
 
 This repository contains the following add-ons:
 
-- **LibreChat v0.8.3-rc1** - Open-source AI chat platform
+- **LibreChat v0.8.4** - Open-source AI chat platform
 - **RAG API v0.5.0** - RAG API for enhanced chat capabilities
 
 ### [LibreChat add-on](./librechat)
