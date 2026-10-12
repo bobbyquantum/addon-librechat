@@ -3,7 +3,7 @@ FROM $BUILD_FROM
 
 ARG BUILD_ARCH
 ARG MONGODB_VERSION=7.0
-ARG NODE_VERSION=v20.13.1
+ARG NODE_VERSION=v24
 ARG MEILISEARCH_VERSION
 ARG LIBRECHAT_VERSION
 
@@ -11,7 +11,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install Node.js, MongoDB
 RUN apt-get update && apt-get install -y gnupg git && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
     apt-get install -y nodejs && \
     curl -fsSL https://www.mongodb.org/static/pgp/server-${MONGODB_VERSION}.asc | \
     gpg --dearmor -o /usr/share/keyrings/mongodb-server-${MONGODB_VERSION}.gpg && \
@@ -35,7 +35,7 @@ RUN curl -OL https://github.com/meilisearch/meilisearch/releases/download/${MEIL
     # install librechat
     mkdir /opt/librechat && \
     cd /opt/librechat && \
-    git clone https://github.com/danny-avila/LibreChat.git . && \
+    git clone https://github.com/LibreChat-AI/LibreChat.git . && \
     git checkout tags/${LIBRECHAT_VERSION} && \
     npm ci && npm run frontend && \
     # fix permissions
