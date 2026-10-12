@@ -1,5 +1,12 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.8.8
+
+- Update to LibreChat 0.8.8 (https://github.com/LibreChat-AI/LibreChat/releases/tag/v0.8.8)
+- Bump Node.js from 20 to 24 to match upstream LibreChat
+- Bump Meilisearch from v1.12.3 to v1.35.1 (the existing search index is rebuilt automatically on first start)
+- Clone LibreChat from its new home at LibreChat-AI/LibreChat
+
 ## 0.8.4
 
 - Update to LibreChat 0.8.4 (https://github.com/danny-avila/LibreChat/releases/tag/v0.8.4)
