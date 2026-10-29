@@ -4,8 +4,14 @@ FROM $BUILD_FROM
 ARG BUILD_ARCH
 ARG MONGODB_VERSION=7.0
 ARG NODE_VERSION=v24
-ARG MEILISEARCH_VERSION
-ARG LIBRECHAT_VERSION
+ARG MEILISEARCH_VERSION=v1.35.1
+ARG LIBRECHAT_VERSION=v0.8.8
+
+LABEL \
+    org.opencontainers.image.title="LibreChat" \
+    org.opencontainers.image.description="LibreChat deployment for Home Assistant." \
+    org.opencontainers.image.source="https://github.com/bobbyquantum/addon-librechat" \
+    org.opencontainers.image.licenses="Apache License 2.0"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
