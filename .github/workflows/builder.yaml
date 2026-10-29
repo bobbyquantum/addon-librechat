@@ -1,8 +1,7 @@
 name: Builder
 
 env:
-  BUILD_ARGS: "--test"
-  MONITORED_FILES: "build.yaml config.yaml Dockerfile rootfs"
+  MONITORED_FILES: "config.yaml Dockerfile rootfs"
 
 on:
   push:
@@ -73,6 +72,7 @@ jobs:
         arch: ["amd64"]
     permissions:
       contents: read
+      id-token: write # Cosign signing
       packages: write
 
     steps:
@@ -93,44 +93,47 @@ jobs:
             echo "build_arch=false" >> $GITHUB_OUTPUT;
           elif [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
             echo "build_arch=true" >> $GITHUB_OUTPUT;
-            
+
+            # Expand {arch} in the config.yaml image name, e.g.
+            # ghcr.io/bobbyquantum/{arch}-addon-librechat-canary
+            image=$(echo "${{ steps.info.outputs.image }}" | sed 's/{arch}/${{ matrix.arch }}/')
+
             # Determine image suffix based on branch
             if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
               # Main branch: remove -canary suffix if present
-              image_name=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3 | sed 's/-canary$//')
-            else
+              image=$(echo "$image" | sed 's/-canary$//')
+            elif [[ ! "$image" =~ -canary$ ]]; then
               # Other branches (including canary): keep -canary suffix
-              image_name=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)
-              if [[ ! "$image_name" =~ -canary$ ]]; then
-                image_name="${image_name}-canary"
-              fi
+              image="${image}-canary"
             fi
-            
-            echo "image=$image_name" >> $GITHUB_OUTPUT;
+
+            echo "image=$image" >> $GITHUB_OUTPUT;
             if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
-                echo "BUILD_ARGS=" >> $GITHUB_ENV;
+              echo "push=true" >> $GITHUB_OUTPUT;
+            else
+              echo "push=false" >> $GITHUB_OUTPUT;
             fi
           else
             echo "${{ matrix.arch }} is not a valid arch for ${{ matrix.addon }}, skipping build";
             echo "build_arch=false" >> $GITHUB_OUTPUT;
           fi
 
-      - name: Login to GitHub Container Registry
-        if: env.BUILD_ARGS != '--test'
-        uses: docker/login-action@v4.2.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build ${{ matrix.addon }} add-on
         if: steps.check.outputs.build_arch == 'true'
-        uses: home-assistant/builder@2026.06.0
+        uses: home-assistant/builder/actions/build-image@2026.09.0
         with:
-          args: |
-            ${{ env.BUILD_ARGS }} \
-            --${{ matrix.arch }} \
-            --target /data/${{ matrix.addon }} \
-            --image "${{ steps.check.outputs.image }}" \
-            --docker-hub "ghcr.io/${{ github.repository_owner }}" \
-            --addon
+          arch: ${{ matrix.arch }}
+          context: ./${{ matrix.addon }}
+          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
+          image: ${{ steps.check.outputs.image }}
+          image-tags: |
+            ${{ steps.info.outputs.version }}
+            latest
+          version: ${{ steps.info.outputs.version }}
+          push: ${{ steps.check.outputs.push }}
+          cache-gha-scope: ${{ matrix.addon }}-${{ matrix.arch }}
+          labels: |
+            io.hass.type=addon
+            io.hass.name=${{ steps.info.outputs.name }}
+            io.hass.description=${{ steps.info.outputs.description }}
+            io.hass.url=${{ steps.info.outputs.url }}
