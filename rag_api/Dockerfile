@@ -32,12 +32,6 @@ RUN git clone --depth 1 https://github.com/pgvector/pgvector.git . && \
 # Final stage
 FROM $BUILD_FROM
 
-LABEL \
-    org.opencontainers.image.title="RAG API" \
-    org.opencontainers.image.description="RAG API deployment for Home Assistant." \
-    org.opencontainers.image.source="https://github.com/bobbyquantum/addon-librechat" \
-    org.opencontainers.image.licenses="Apache License 2.0"
-
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -72,7 +66,7 @@ ENV POSTGRES_PASSWORD=ragapipassword
 ENV POSTGRES_DB=ragapi
 ENV DB_HOST=localhost
 ENV DB_PORT=5432
-ARG RAG_API_VERSION=v0.5.0
+ARG RAG_API_VERSION
 # Copy pgvector from builder
 COPY --from=builder /usr/lib/postgresql/15/lib/vector.so /usr/lib/postgresql/15/lib/
 COPY --from=builder /usr/share/postgresql/15/extension/vector* /usr/share/postgresql/15/extension/
