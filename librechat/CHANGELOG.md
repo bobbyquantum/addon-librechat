@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## 0.8.8-1
+
+- Fix LibreChat failing to start after upgrading when `/config/.env` still has the old default `JWT_SECRET` or `JWT_REFRESH_SECRET`. These are now replaced automatically, so everyone will need to sign in again. Custom values are left alone.
+- Keep secrets that LibreChat generates in `/config/.env.temp` so they survive add-on updates
+
 ## 0.8.8
 
 - Update to LibreChat 0.8.8 (https://github.com/LibreChat-AI/LibreChat/releases/tag/v0.8.8)
