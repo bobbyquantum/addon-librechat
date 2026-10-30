@@ -79,6 +79,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7.0.0
 
+      # Outputs of this helper are JSON-encoded, strings include their quotes
       - name: Get information
         id: info
         uses: home-assistant/actions/helpers/info@master
@@ -127,13 +128,13 @@ jobs:
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
           image: ${{ steps.check.outputs.image }}
           image-tags: |
-            ${{ steps.info.outputs.version }}
+            ${{ fromJSON(steps.info.outputs.version) }}
             latest
-          version: ${{ steps.info.outputs.version }}
+          version: ${{ fromJSON(steps.info.outputs.version) }}
           push: ${{ steps.check.outputs.push }}
-          cache-gha-scope: ${{ matrix.addon }}-${{ matrix.arch }}
+          cache-gha-scope: ${{ matrix.addon }}
           labels: |
             io.hass.type=addon
-            io.hass.name=${{ steps.info.outputs.name }}
-            io.hass.description=${{ steps.info.outputs.description }}
-            io.hass.url=${{ steps.info.outputs.url }}
+            io.hass.name=${{ fromJSON(steps.info.outputs.name) }}
+            io.hass.description=${{ fromJSON(steps.info.outputs.description) }}
+            io.hass.url=${{ fromJSON(steps.info.outputs.url) }}
