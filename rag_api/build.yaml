@@ -1,0 +1,10 @@
+build_from:
+  amd64: ghcr.io/home-assistant/amd64-base-debian:bullseye
+labels:
+  org.opencontainers.image.title: "RAG API"
+  org.opencontainers.image.description: "RAG API deployment for Home Assistant."
+  org.opencontainers.image.source: "https://github.com/bobbyquantum/addon-rag_api"
+  org.opencontainers.image.licenses: "Apache License 2.0"
+args:
+  PYTHON_VERSION: "3.11"
+  RAG_API_VERSION: "v0.5.0"
